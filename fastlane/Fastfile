@@ -11,7 +11,10 @@
 #
 
 opt_out_usage
-update_fastlane
+# Only on a developer machine. On CI this replaces the very gem Gemfile.lock
+# pins, and the restart that follows cannot find it any more — the run dies
+# with "Could not find fastlane-x.y.z in locally installed gems".
+update_fastlane unless ENV['CI']
 
 default_platform(:ios)
 

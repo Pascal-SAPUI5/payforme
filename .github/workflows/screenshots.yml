@@ -54,6 +54,9 @@ jobs:
         run: brew list imagemagick >/dev/null 2>&1 || brew install imagemagick
 
       - name: Screenshots aufnehmen
+        env:
+          FASTLANE_SKIP_UPDATE_CHECK: '1'
+          FASTLANE_HIDE_CHANGELOG: '1'
         run: bundle exec fastlane cishots ios_version:${{ steps.sim.outputs.version }}
 
       - name: Ergebnis auflisten
