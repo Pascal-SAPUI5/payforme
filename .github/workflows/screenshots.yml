@@ -23,8 +23,12 @@ jobs:
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode_26.3.app
 
+      # The repository pins no Ruby version, and setup-ruby refuses to guess.
+      # Naming it here keeps .ruby-version out of the repo, where it would
+      # travel into every future upstream pull request.
       - uses: ruby/setup-ruby@v1
         with:
+          ruby-version: '3.3'
           bundler-cache: true
 
       # The Snapfile pins an iOS version that a given runner image may not ship.
