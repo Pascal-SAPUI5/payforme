@@ -2,8 +2,9 @@
 //  Charts.swift
 //  PayForMe
 //
-//  Hand-rolled SwiftUI charts. Swift Charts needs iOS 16 and the app still ships
-//  to iOS 15, so these are built from primitives.
+//  The monthly trend uses Swift Charts. The other three are deliberately not
+//  charts in the Swift Charts sense — see the note on each — and stay built from
+//  SwiftUI primitives.
 //
 //  Form choices follow the data's job rather than what looks impressive:
 //    · monthly spend  -> column chart, ONE hue (magnitude over time)
@@ -16,25 +17,20 @@
 //  documented relief for that.
 //
 
+import Charts
 import SwiftUI
 
 // MARK: - Column chart (monthly trend)
 
 /// Spend per month. A single series, so it takes one hue and needs no legend —
-/// the section title names it.
+/// the section title names it. The peak column is emphasised and labelled
+/// directly, which is the one number a reader actually wants off this chart.
 struct PFMColumnChart: View {
     @Environment(\.pfmTheme) private var theme
 
     let buckets: [PeriodBucket]
     let currency: String?
-    var height: CGFloat = 148
-
-    /// Months are labelled with a narrow formatter so twelve of them still fit.
-    private static let monthLabel: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.setLocalizedDateFormatFromTemplate("MMM")
-        return formatter
-    }()
+    var height: CGFloat = 168
 
     private static let monthYearLabel: DateFormatter = {
         let formatter = DateFormatter()
@@ -42,56 +38,54 @@ struct PFMColumnChart: View {
         return formatter
     }()
 
-    private var maxValue: Double {
-        max(buckets.map { $0.total }.max() ?? 0, 0.01)
-    }
-
-    /// With more than ~8 columns the month labels collide, so only every other
-    /// one is drawn. The peak column keeps its label regardless.
-    private var labelStride: Int {
-        buckets.count > 8 ? 2 : 1
-    }
-
-    private var peakIndex: Int? {
-        guard let maximum = buckets.map({ $0.total }).max(), maximum > 0 else { return nil }
-        return buckets.firstIndex { $0.total == maximum }
+    /// The highest-spending month, ignoring a run of empty months.
+    private var peak: PeriodBucket? {
+        guard let candidate = buckets.max(by: { $0.total < $1.total }), candidate.total > 0 else { return nil }
+        return candidate
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            // Direct label for the peak instead of a full y-axis: one number the
-            // reader actually needs, rather than four they have to interpolate.
-            if let peakIndex = peakIndex {
-                Text("stats_peak_label \(MoneyFormatter.string(buckets[peakIndex].total, currency: currency)) \(Self.monthYearLabel.string(from: buckets[peakIndex].start))")
+        VStack(alignment: .leading, spacing: 10) {
+            if let peak = peak {
+                Text("stats_peak_label \(MoneyFormatter.string(peak.total, currency: currency)) \(Self.monthYearLabel.string(from: peak.start))")
                     .font(.caption)
                     .foregroundColor(theme.palette.textSecondary)
             }
 
-            HStack(alignment: .bottom, spacing: 6) {
-                ForEach(Array(buckets.enumerated()), id: \.element.id) { index, bucket in
-                    VStack(spacing: 6) {
-                        GeometryReader { geometry in
-                            VStack(spacing: 0) {
-                                Spacer(minLength: 0)
-                                RoundedRectangle(cornerRadius: 4, style: .continuous)
-                                    .fill(index == peakIndex ? theme.palette.accent : theme.palette.accent.opacity(0.42))
-                                    .frame(height: max(2, geometry.size.height * CGFloat(bucket.total / maxValue)))
-                            }
+            Chart(buckets) { bucket in
+                BarMark(
+                    x: .value("month", bucket.start, unit: .month),
+                    y: .value("total", bucket.total)
+                )
+                // Emphasis rather than categorical colour: one series, one hue,
+                // with the peak carrying full saturation.
+                .foregroundStyle(bucket.id == peak?.id
+                                 ? theme.palette.accent
+                                 : theme.palette.accent.opacity(0.42))
+                .cornerRadius(4)
+            }
+            .chartLegend(.hidden)
+            .chartYAxis {
+                AxisMarks(position: .leading, values: .automatic(desiredCount: 3)) { value in
+                    AxisGridLine()
+                        .foregroundStyle(theme.palette.separator)
+                    AxisValueLabel {
+                        if let amount = value.as(Double.self) {
+                            Text(MoneyFormatter.abbreviated(amount, currency: currency))
+                                .font(.system(size: 9))
+                                .foregroundColor(theme.palette.textTertiary)
                         }
-                        .frame(height: height)
-
-                        Text(index % labelStride == 0 || index == peakIndex
-                             ? Self.monthLabel.string(from: bucket.start)
-                             : " ")
-                            .font(.system(size: 10, weight: .medium))
-                            .foregroundColor(theme.palette.textTertiary)
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.7)
                     }
-                    .accessibilityElement(children: .ignore)
-                    .accessibilityLabel(Text("\(Self.monthYearLabel.string(from: bucket.start)): \(MoneyFormatter.string(bucket.total, currency: currency))"))
                 }
             }
+            .chartXAxis {
+                AxisMarks(values: .stride(by: .month)) { _ in
+                    AxisValueLabel(format: .dateTime.month(.narrow))
+                        .font(.system(size: 9))
+                        .foregroundStyle(theme.palette.textTertiary)
+                }
+            }
+            .frame(height: height)
         }
     }
 }
@@ -109,6 +103,9 @@ struct PFMRankedBarRow: Identifiable {
 /// Horizontal magnitude comparison. Deliberately one hue: the members already
 /// carry identity through their avatars, and a 12-member project would blow past
 /// any categorical palette's ceiling.
+///
+/// Not a `Chart`: the avatar per row is the point, and Swift Charts cannot put
+/// arbitrary views on a category axis without giving up the list idiom.
 struct PFMRankedBarList: View {
     @Environment(\.pfmTheme) private var theme
 
@@ -145,6 +142,9 @@ struct PFMRankedBarList: View {
 
 /// Who is up and who is down, around a shared zero line. Diverging colour: the
 /// positive/negative status pair with the baseline as the neutral midpoint.
+///
+/// Not a `Chart`, for the same reason as the ranked bars: these are list rows
+/// that happen to contain a bar, not a plot.
 struct PFMDivergingBarList: View {
     @Environment(\.pfmTheme) private var theme
 
@@ -227,6 +227,11 @@ struct PFMShareSegment: Identifiable {
 /// Part-to-whole as a horizontal stacked bar plus a labelled legend — the form
 /// the reader can actually compare, unlike a pie. Segments are separated by a
 /// 2 pt surface-coloured gap so neighbouring hues never touch.
+///
+/// Not a `Chart`: Swift Charts stacks marks flush against each other, and that
+/// gap is what keeps two adjacent palette hues from reading as one block. The
+/// legend also carries the server's category emoji, amount and share, which is
+/// more than `chartLegend` can render.
 struct PFMStackedShareBar: View {
     @Environment(\.pfmTheme) private var theme
 

@@ -56,8 +56,14 @@ to zero is.
   iHateMoney has no categories, so the section hides itself there.
 
 Date ranges are this month, the last three or six months, this year, or all
-time. Charts are built from SwiftUI primitives rather than Swift Charts, which
-would raise the deployment target from iOS 15 to iOS 16.
+time.
+
+The monthly trend is a Swift Charts bar chart. The other three — ranked payer
+bars, diverging balances and the category share bar — are deliberately *not*
+Swift Charts: the first two are list rows carrying a member avatar, which a
+category axis cannot render, and the share bar needs a 2 pt gap between stacked
+segments so two adjacent palette hues never read as one block. Swift Charts
+stacks marks flush.
 
 ## Appearance
 
