@@ -85,7 +85,7 @@ struct BalanceList: View {
             }
         }
         .listStyle(InsetGroupedListStyle())
-        .pfmClearListBackground()
+        .scrollContentBackground(.hidden)
         .refreshable {
             await ProjectManager.shared.refresh()
         }
@@ -96,7 +96,7 @@ struct BalanceList: View {
             Text("balances_outstanding")
                 .font(.caption.weight(.semibold))
                 .textCase(.uppercase)
-                .pfmTracking(0.6)
+                .kerning(0.6)
                 .foregroundColor(theme.palette.textSecondary)
             Text(MoneyFormatter.string(outstanding, currency: currency))
                 .font(Font.system(.title2, design: .rounded).weight(.bold).monospacedDigit())

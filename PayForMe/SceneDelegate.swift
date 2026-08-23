@@ -17,13 +17,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
 
         // Create the SwiftUI view that provides the window contents.
-        // iOS 15 still backs `List` with a UITableView, whose opaque grouped
-        // background would hide the themed page colour. iOS 16+ uses
-        // `scrollContentBackground(.hidden)` at the call site instead.
-        if #available(iOS 16.0, *) {} else {
-            UITableView.appearance().backgroundColor = .clear
-        }
-
         let contentView = ContentView()
 
         // Use a UIHostingController as window root view controller.

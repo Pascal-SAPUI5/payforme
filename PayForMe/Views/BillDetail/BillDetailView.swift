@@ -57,7 +57,7 @@ struct BillDetailView: View {
                         PotentialOwersView(vm: viewModel.povm)
                     }
                 }
-                .pfmClearListBackground()
+                .scrollContentBackground(.hidden)
                 FancyLoadingButton(isLoading: sendingInProgress, add: false, action: self.sendBillToServer, text: showModal ? "Create Bill" : "Update Bill")
                     .disabled(sendBillButtonDisabled)
                     .onReceive(self.viewModel.validatedInput) {

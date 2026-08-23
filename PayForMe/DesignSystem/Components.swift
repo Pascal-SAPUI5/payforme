@@ -6,8 +6,8 @@
 //  All of them read their colours from `@Environment(\.pfmTheme)`, so a theme
 //  switch restyles the whole app without any screen knowing about it.
 //
-//  iOS 15 deployment target: no `Grid`, no `NavigationStack`, no Swift Charts,
-//  and no `scrollContentBackground` outside an availability check.
+//  Deployment target is iOS 17, so the whole modern SwiftUI surface is
+//  available without availability gates.
 //
 
 import SwiftUI
@@ -75,33 +75,6 @@ extension View {
         modifier(PFMCardModifier(padding: padding, fill: fill))
     }
 
-    /// Makes `List` show the themed background instead of the system grey.
-    /// iOS 16 replaced the UITableView backing store, hence the split.
-    @ViewBuilder
-    func pfmClearListBackground() -> some View {
-        if #available(iOS 16.0, *) {
-            self.scrollContentBackground(.hidden)
-        } else {
-            self
-        }
-    }
-
-    /// Letter spacing for the small uppercase labels.
-    ///
-    /// `kerning` is iOS 16+ — on both `Text` and `View` — so on iOS 15 the label
-    /// simply renders without the extra tracking instead of the whole design
-    /// system failing to build. It sits on `View` rather than `Text` because
-    /// every call site applies it after `textCase`, which already erases to a
-    /// view.
-    @ViewBuilder
-    func pfmTracking(_ amount: CGFloat) -> some View {
-        if #available(iOS 16.0, *) {
-            self.kerning(amount)
-        } else {
-            self
-        }
-    }
-
     /// Rows that should look like free-floating cards rather than table cells.
     func pfmCardRow() -> some View {
         listRowBackground(Color.clear)
@@ -138,7 +111,7 @@ struct PFMSectionHeader: View {
                 Text(titleKey)
                     .font(.footnote.weight(.semibold))
                     .textCase(.uppercase)
-                    .pfmTracking(0.8)
+                    .kerning(0.8)
                     .foregroundColor(theme.palette.textSecondary)
                 if let subtitleKey = subtitleKey {
                     Text(subtitleKey)

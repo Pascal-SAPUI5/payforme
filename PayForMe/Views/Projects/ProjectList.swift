@@ -62,7 +62,7 @@ struct ProjectList: View {
                     }
                 }
                 .listStyle(InsetGroupedListStyle())
-                .pfmClearListBackground()
+                .scrollContentBackground(.hidden)
                 .sheet(item: $shareProject) { project in
                     PFMThemedContainer {
                         ShareProjectQRCode(project: project)
