@@ -79,10 +79,20 @@ extension JSONEncoder {
 }
 
 extension DateFormatter {
+    /// Wire format. Must stay `yyyy-MM-dd` — it is what both backends parse.
     static let cospend: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
 
+        return formatter
+    }()
+
+    /// What the user reads. The wire format used to be shown verbatim in the
+    /// bill list, so everyone saw ISO dates regardless of their locale.
+    static let cospendDisplay: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
         return formatter
     }()
 }

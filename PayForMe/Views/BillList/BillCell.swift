@@ -22,13 +22,13 @@ struct BillCell: View {
             Spacer()
             VStack(alignment: .trailing, spacing: 10) {
                 Text(amountString()).font(.headline)
-                Text(DateFormatter.cospend.string(from: bill.date)).font(.subheadline)
+                Text(DateFormatter.cospendDisplay.string(from: bill.date)).font(.subheadline)
             }
         }
     }
 
     func amountString() -> String {
-        return "\(String(format: "%.2f", bill.amount))"
+        MoneyFormatter.plain(bill.amount)
     }
 }
 

@@ -126,8 +126,8 @@ struct BalanceCell: View {
         HStack {
             PersonText(person: balance.person)
             Spacer()
-            Text(" \(String(format: "%.2f", balance.amount))")
-                .font(.headline)
+            Text(MoneyFormatter.signed(balance.amount))
+                .font(.headline.monospacedDigit())
                 .foregroundColor(balance.amount >= 0 ? Color.primary : Color.red)
         }.padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
     }
