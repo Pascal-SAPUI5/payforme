@@ -1,0 +1,85 @@
+# Baut eine unsignierte IPA von PayForMe auf einem macOS-Runner.
+#
+# Warum unsigniert: SideStore oder AltStore signieren die App auf dem iPhone
+# selbst mit deiner Apple-ID. Eine hier erzeugte Signatur waere dafuer nur im Weg.
+#
+# Unterschied zu ios-testflight.yml: Hier braucht es KEINE Secrets und KEINE
+# eigene Bundle-ID in App Store Connect - die App wird erst auf dem Geraet
+# signiert. Dafuer laeuft sie mit freier Apple-ID nur 7 Tage (mit bezahltem
+# Entwicklerkonto ein Jahr) und laesst sich nicht an andere Tester verteilen.
+#
+# PayForMe hat ein geteiltes Scheme unter
+# PayForMe.xcodeproj/xcshareddata/xcschemes/PayForMe.xcscheme, deshalb
+# funktioniert -scheme im frischen Checkout ohne Vorarbeit.
+#
+# Kosten: macOS-Runner zaehlen bei privaten Repos 10-fach. Bei 2000 Freiminuten
+# sind das ~200 macOS-Minuten/Monat. Deshalb laeuft der Build nur manuell oder
+# auf einem v-Tag, nicht bei jedem Push.
+name: iOS IPA (unsigniert)
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_26.3.app
+
+      # Eigener Schritt, damit ein Netzwerk- oder Versionsproblem bei GRDB oder
+      # SlickLoadingSpinner nicht als diffuser Build-Fehler erscheint.
+      - name: SPM-Abhaengigkeiten aufloesen
+        run: |
+          xcodebuild -resolvePackageDependencies \
+            -project PayForMe.xcodeproj \
+            -scheme PayForMe \
+            -derivedDataPath "$RUNNER_TEMP/DerivedData"
+
+      # Die Build-Nummer macht am Geraet unterscheidbar, ob ein Fix wirkungslos
+      # war oder schlicht noch nicht installiert ist.
+      - name: Build-Nummer setzen
+        run: |
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${{ github.run_number }}" PayForMe/Info.plist
+
+      - name: App bauen
+        run: |
+          xcodebuild \
+            -project PayForMe.xcodeproj \
+            -scheme PayForMe \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath "$RUNNER_TEMP/DerivedData" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGN_ENTITLEMENTS="" \
+            build
+
+      # Eine IPA ist nur ein ZIP mit der .app in einem Ordner namens "Payload".
+      - name: IPA packen
+        run: |
+          APP="$RUNNER_TEMP/DerivedData/Build/Products/Release-iphoneos/PayForMe.app"
+          if [ ! -d "$APP" ]; then
+            echo "PayForMe.app nicht gefunden - Inhalt der Build-Produkte:"
+            ls -R "$RUNNER_TEMP/DerivedData/Build/Products" || true
+            exit 1
+          fi
+          mkdir -p "$RUNNER_TEMP/Payload"
+          cp -R "$APP" "$RUNNER_TEMP/Payload/"
+          cd "$RUNNER_TEMP"
+          zip -qry PayForMe.ipa Payload
+          ls -lh PayForMe.ipa
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: payforme-ipa
+          path: ${{ runner.temp }}/PayForMe.ipa
+          retention-days: 30
