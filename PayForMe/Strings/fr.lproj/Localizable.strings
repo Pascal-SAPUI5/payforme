@@ -157,3 +157,6 @@
 "Enter invite link" = "Saisir le lien d'invitation";
 "invite_link_hint" = "Collez le lien d'invitation complet. Le serveur et le projet sont détectés automatiquement.";
 "Server returned an invalid HTTP response" = "Le serveur a renvoyé une réponse HTTP non valide";
+
+"Comment" = "Commentaire";
+"Add a note" = "Ajouter une note";

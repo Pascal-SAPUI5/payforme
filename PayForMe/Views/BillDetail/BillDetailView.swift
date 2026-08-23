@@ -50,6 +50,12 @@ struct BillDetailView: View {
                         Label("Bill date", systemImage: "calendar").labelStyle(.iconOnly)
                     }
                 }
+                // Cospend only: iHateMoney bills have no comment field.
+                if viewModel.currentProject.backend == .cospend {
+                    Section(header: Text("Comment")) {
+                        TextField("Add a note", text: self.$viewModel.comment)
+                    }
+                }
                 Section(header: Text("Owers")) {
                     PotentialOwersView(vm: viewModel.povm)
                 }
