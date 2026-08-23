@@ -41,8 +41,14 @@ enum MoneyFormatter {
     }()
 
     /// "1.234,50" — always two decimals, no currency.
+    ///
+    /// The value is rounded before formatting rather than left to
+    /// `maximumFractionDigits`: swift-corelibs-foundation stops honouring that
+    /// property once `minimumFractionDigits` is set, so relying on it makes the
+    /// output differ between Apple platforms and Linux and untestable off-device.
     static func plain(_ amount: Double) -> String {
-        decimal.string(from: NSNumber(value: amount)) ?? String(format: "%.2f", amount)
+        let rounded = (amount * 100).rounded() / 100
+        return decimal.string(from: NSNumber(value: rounded)) ?? String(format: "%.2f", rounded)
     }
 
     /// "1.234,50 €". `currency` is whatever Cospend reports; when it is nil or

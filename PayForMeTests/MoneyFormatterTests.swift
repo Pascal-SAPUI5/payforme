@@ -15,6 +15,10 @@ final class MoneyFormatterTests: XCTestCase {
     func testPlainAlwaysHasTwoDecimals() {
         XCTAssertTrue(MoneyFormatter.plain(5).hasSuffix("00"), "got \(MoneyFormatter.plain(5))")
         XCTAssertTrue(MoneyFormatter.plain(5.5).hasSuffix("50"), "got \(MoneyFormatter.plain(5.5))")
+        XCTAssertTrue(MoneyFormatter.plain(5.499).hasSuffix("50"),
+                      "rounds up, got \(MoneyFormatter.plain(5.499))")
+        XCTAssertTrue(MoneyFormatter.plain(5.991).hasSuffix("99"),
+                      "rounds down, got \(MoneyFormatter.plain(5.991))")
     }
 
     func testCurrencyAppendedOnlyWhenKnown() {
