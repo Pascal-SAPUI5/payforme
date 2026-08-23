@@ -33,6 +33,47 @@ Ways to contribute:
 * Clearing debt of single members
 * ~Creating new projects on iHateMoney~
 * Adding new members to a project
+* Statistics: totals, per-member paid/spent/balance, monthly trend, category
+  breakdown and a settlement plan
+* Three themes, each with a light and a dark variant, switchable under
+  Projects > Appearance
+
+## Statistics
+
+The Statistics tab answers the questions a shared project actually raises:
+where the money went, who is carrying the group, and what the shortest way back
+to zero is.
+
+* **Totals** for the selected period — spend, number of expenses, average
+  expense, average per participating member
+* **Balances** as diverging bars around a zero line, using the same split rule
+  as the Members tab so the two can never disagree
+* **Settle up** — a greedy plan that clears every debt in at most one transfer
+  fewer than there are members
+* **Monthly spending**, including months with no spending, so a gap reads as
+  "nobody spent anything" rather than as missing data
+* **Categories** and the currency label, read from the Cospend project itself.
+  iHateMoney has no categories, so the section hides itself there.
+
+Date ranges are this month, the last three or six months, this year, or all
+time. Charts are built from SwiftUI primitives rather than Swift Charts, which
+would raise the deployment target from iOS 15 to iOS 16.
+
+## Appearance
+
+Colour, elevation and shape come from a token set rather than being hardcoded
+per screen, so the whole app restyles at once. Three directions ship:
+
+* **Aurora** — deep indigo, vivid gradients, soft glass. The default.
+* **Graphite** — editorial monochrome with hairlines instead of shadows; only
+  money carries colour.
+* **Mint** — warm paper, mint and coral, generous rounding.
+
+Each has a hand-stepped light and dark palette, and light/dark can be forced
+independently of the system setting. The categorical chart palette is shared by
+all three and was validated for colour-blind separation and contrast against
+every theme surface in both modes — its ordering is what makes neighbouring
+series distinguishable, so reordering it is not a cosmetic change.
 
 
 ## How to contribute Localization
