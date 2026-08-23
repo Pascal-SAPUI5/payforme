@@ -1,0 +1,64 @@
+# Renders the app in a simulator and hands back the screenshots as an artifact.
+#
+# Without a Mac there is no other way to look at the UI: the build-and-test
+# workflow proves the code compiles and the numbers add up, but says nothing
+# about whether a colour is legible in dark mode or a label is cut off.
+#
+# Manual only. macOS runners bill at ten times the rate, and screenshots are
+# not something to regenerate on every push.
+name: Screenshots
+
+on:
+  workflow_dispatch:
+
+jobs:
+  screenshots:
+    if: github.repository == 'Pascal-SAPUI5/payforme'
+    runs-on: macos-15
+    timeout-minutes: 60
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_26.3.app
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      # The Snapfile pins an iOS version that a given runner image may not ship.
+      # Take the newest one that is actually installed instead of guessing.
+      - name: Verfuegbare iOS-Runtime ermitteln
+        id: sim
+        run: |
+          version=$(xcrun simctl list runtimes --json \
+            | jq -r '.runtimes[] | select(.platform == "iOS" and .isAvailable) | .version' \
+            | sort -V | tail -1)
+          if [ -z "$version" ]; then
+            echo "::error::Keine iOS-Runtime auf dem Runner gefunden"
+            xcrun simctl list runtimes
+            exit 1
+          fi
+          echo "Verwende iOS $version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Verfuegbare Geraete anzeigen
+        run: xcrun simctl list devices available | grep -i "iPhone 16 Pro Max" || echo "::warning::iPhone 16 Pro Max nicht gefunden"
+
+      - name: ImageMagick fuer frameit
+        run: brew list imagemagick >/dev/null 2>&1 || brew install imagemagick
+
+      - name: Screenshots aufnehmen
+        run: bundle exec fastlane cishots ios_version:${{ steps.sim.outputs.version }}
+
+      - name: Ergebnis auflisten
+        if: always()
+        run: find screenshots -name '*.png' | sort
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: payforme-screenshots
+          path: screenshots/
+          if-no-files-found: error

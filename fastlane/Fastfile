@@ -85,6 +85,33 @@ platform :ios do
     frameit(path: "./screenshots/lightmode")
   end
 
+  # Screenshots on CI, where two Snapfile assumptions do not hold: the pinned
+  # iOS version may not exist on the runner, and only en-US is kept in the repo
+  # so there is no point paying for four languages. Both are overridden here
+  # rather than in the Snapfile, which the local `githubshots` lane still uses.
+  #
+  # frameit needs ImageMagick and downloads device frames on first use. If that
+  # fails the unframed screenshots are still worth having, so it must not take
+  # the whole run down with it.
+  lane :cishots do |options|
+    snapshot_dd = File.expand_path("~/Library/Caches/tools.fastlane/payforme_snapshot_dd")
+
+    %w[darkmode lightmode].each do |mode|
+      capture_screenshots(
+        ios_version: options[:ios_version],
+        languages: ["en-US"],
+        dark_mode: mode == "darkmode",
+        output_directory: "screenshots/#{mode}",
+        derived_data_path: snapshot_dd
+      )
+      begin
+        frameit(path: "./screenshots/#{mode}")
+      rescue StandardError => e
+        UI.important("frameit skipped for #{mode}: #{e.message}")
+      end
+    end
+  end
+
   lane :deliverToAppstore do
     increment_build_number(xcodeproj: "PayForMe.xcodeproj")
     get_provisioning_profile(app_identifier: "de.mayflower.PayForMe")
