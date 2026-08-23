@@ -8,72 +8,121 @@
 import SwiftUI
 
 struct OnboardingView: View {
+    @Environment(\.pfmTheme) private var theme
+
     @State private var moreInfo = false
 
     var body: some View {
         NavigationView {
-            VStack(spacing: 32) {
-                Text("Welcome to PayForMe!").font(.largeTitle)
-                Text("To get started sharing expenses with friends, you must add a project from Cospend or iHateMoney. To do this, scan the QR code or click the link for the project that was shared with you.")
-                NavigationLink(destination: AddProjectManualView()) {
-                    Label("Add project", systemImage: "plus")
-                        .font(.headline)
-                        .padding(.vertical, 4)
-                        .padding(.horizontal, 20)
-                }
-                .prominentActionStyle()
-                if moreInfo {
-                    Button(action: {
-                        withAnimation {
-                            self.moreInfo.toggle()
+            ZStack {
+                PFMBackground()
+
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 26) {
+                        Spacer(minLength: 24)
+
+                        logo
+
+                        VStack(spacing: 10) {
+                            Text("Welcome to PayForMe!")
+                                .font(Font.system(.largeTitle, design: .rounded).weight(.bold))
+                                .foregroundColor(theme.palette.textPrimary)
+                                .multilineTextAlignment(.center)
+
+                            Text("To get started sharing expenses with friends, you must add a project from Cospend or iHateMoney. To do this, scan the QR code or click the link for the project that was shared with you.")
+                                .font(.subheadline)
+                                .foregroundColor(theme.palette.textSecondary)
+                                .multilineTextAlignment(.center)
+                                .fixedSize(horizontal: false, vertical: true)
                         }
-                    }, label: {
-                        Image(systemName: "chevron.compact.up")
-                            .resizable().aspectRatio(contentMode: .fit).frame(width: 30)
-                    })
-                    HStack(alignment: .top, spacing: 12) {
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Cospend is a NextCloud app")
-                            Button("nextcloud.com") {
-                                if let url = URL(string: "https://nextcloud.com/") {
-                                    if UIApplication.shared.canOpenURL(url) {
-                                        UIApplication.shared.open(url)
-                                    }
-                                }
-                            }
+
+                        NavigationLink(destination: AddProjectManualView()) {
+                            Label("Add project", systemImage: "plus")
                         }
-                        Spacer()
-                        VStack(alignment: .trailing, spacing: 5) {
-                            Text("To use iHateMoney, host an own instance or register at").multilineTextAlignment(.trailing)
-                            Button("iHateMoney.org") {
-                                if let url = URL(string: "https://ihatemoney.org/") {
-                                    if UIApplication.shared.canOpenURL(url) {
-                                        UIApplication.shared.open(url)
-                                    }
-                                }
-                            }
+                        .buttonStyle(PFMPrimaryButtonStyle())
+
+                        Button {
+                            withAnimation(.easeOut(duration: 0.22)) { self.moreInfo.toggle() }
+                        } label: {
+                            Label(moreInfo ? "onboarding_hide_info" : "onboarding_what_is_this",
+                                  systemImage: moreInfo ? "chevron.up" : "questionmark.circle")
                         }
+                        .buttonStyle(PFMSecondaryButtonStyle())
+
+                        if moreInfo {
+                            backendCards
+                        }
+
+                        Spacer(minLength: 20)
                     }
-                } else {
-                    Button(action: {
-                        withAnimation {
-                            self.moreInfo.toggle()
-                        }
-                    }, label: {
-                        Image(systemName: "questionmark")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(height: 40)
-                    })
+                    .padding(.horizontal, 24)
                 }
-                Spacer()
-            }.padding(20)
+            }
         }
+        .navigationViewStyle(StackNavigationViewStyle())
+    }
+
+    private var logo: some View {
+        ZStack {
+            Circle()
+                .fill(LinearGradient(gradient: Gradient(colors: theme.palette.heroGradient),
+                                     startPoint: .topLeading, endPoint: .bottomTrailing))
+                .frame(width: 96, height: 96)
+                .shadow(color: theme.metrics.prefersFlatSurfaces ? .clear : theme.palette.accent.opacity(0.35),
+                        radius: 22, x: 0, y: 10)
+            Image(systemName: "arrow.left.arrow.right")
+                .font(.system(size: 36, weight: .semibold))
+                .foregroundColor(theme.palette.onHero)
+        }
+        .accessibilityHidden(true)
+    }
+
+    private var backendCards: some View {
+        VStack(spacing: 12) {
+            backendCard(titleKey: "Cospend is a NextCloud app",
+                        linkTitle: "nextcloud.com",
+                        url: "https://nextcloud.com/",
+                        systemImage: "cloud.fill")
+            backendCard(titleKey: "To use iHateMoney, host an own instance or register at",
+                        linkTitle: "iHateMoney.org",
+                        url: "https://ihatemoney.org/",
+                        systemImage: "globe")
+        }
+    }
+
+    private func backendCard(titleKey: LocalizedStringKey,
+                             linkTitle: String,
+                             url: String,
+                             systemImage: String) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 8) {
+                Image(systemName: systemImage)
+                    .font(.footnote.weight(.bold))
+                    .foregroundColor(theme.palette.accent)
+                Text(titleKey)
+                    .font(.subheadline)
+                    .foregroundColor(theme.palette.textPrimary)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .multilineTextAlignment(.leading)
+            }
+            Button(linkTitle) {
+                if let target = URL(string: url), UIApplication.shared.canOpenURL(target) {
+                    UIApplication.shared.open(target)
+                }
+            }
+            .font(.subheadline.weight(.semibold))
+            .foregroundColor(theme.palette.accent)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .pfmCard()
     }
 }
 
 struct OnboardingViewView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardingView().environment(\.locale, .init(identifier: "de"))
+        PFMThemedContainer {
+            OnboardingView()
+        }
+        .environment(\.locale, .init(identifier: "de"))
     }
 }

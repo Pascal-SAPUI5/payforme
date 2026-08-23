@@ -18,6 +18,9 @@ struct ContentView: View {
     @StateObject
     private var balanceViewModel = BalanceViewModel()
 
+    @StateObject
+    private var statisticsViewModel = StatisticsViewModel()
+
     @Environment(\.scenePhase)
     private var scenePhase
 
@@ -31,19 +34,25 @@ struct ContentView: View {
     var hidePlusButton = false
 
     var body: some View {
-        ZStack {
-            if !manager.projects.isEmpty {
-                tabBar
-            } else {
-                OnboardingView()
+        // Everything below resolves its colours from the theme this container
+        // injects, so a theme or light/dark change restyles the whole app.
+        PFMThemedContainer {
+            ZStack {
+                if !manager.projects.isEmpty {
+                    tabBar
+                } else {
+                    OnboardingView()
+                }
             }
-        }
-        .sheet(item: $manager.openedByURL) { url in
-            AddFromURLView(viewmodel: AddProjectQRViewModel(openedByURL: url))
-        }
-        .onChange(of: scenePhase) { newPhase in
-            if newPhase == .active && !manager.projects.isEmpty {
-                manager.loadBillsAndMembers()
+            .sheet(item: $manager.openedByURL) { url in
+                PFMThemedContainer {
+                    AddFromURLView(viewmodel: AddProjectQRViewModel(openedByURL: url))
+                }
+            }
+            .onChange(of: scenePhase) { newPhase in
+                if newPhase == .active && !manager.projects.isEmpty {
+                    manager.loadBillsAndMembers()
+                }
             }
         }
     }
@@ -55,6 +64,11 @@ struct ContentView: View {
                     Label("Bills", systemImage: "rectangle.stack")
                 }
                 .tag(tabBarItems.BillList)
+            StatisticsView(viewModel: statisticsViewModel)
+                .tabItem {
+                    Label("Statistics", systemImage: "chart.bar.xaxis")
+                }
+                .tag(tabBarItems.Statistics)
             BalanceList(viewModel: balanceViewModel)
                 .tabItem {
                     Label("Members", systemImage: "arrow.right.arrow.left")
@@ -67,6 +81,11 @@ struct ContentView: View {
                 .tag(tabBarItems.ServerList)
         }
         .glassTabBarMinimize()
+        // The statistics screen keeps its own snapshot of the project, so it has
+        // to recompute when bills arrive from a refresh on another tab.
+        .onReceive(manager.$currentProject) { _ in
+            statisticsViewModel.recompute()
+        }
     }
 }
 
@@ -74,6 +93,7 @@ enum tabBarItems: Int {
     case ServerList
     case BillList
     case Balance
+    case Statistics
 }
 
 struct ContentView_Previews: PreviewProvider {

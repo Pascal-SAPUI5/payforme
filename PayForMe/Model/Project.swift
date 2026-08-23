@@ -21,6 +21,22 @@ class Project: Codable, Identifiable {
 
     let projectId: String
 
+    /// Expense categories as configured on the server, keyed by category id.
+    /// Cospend-only and fetched lazily; empty means "this project has none", in
+    /// which case the statistics screen hides its category section.
+    var categories: [Int: ProjectCategory] = [:]
+
+    /// Currency label reported by the server (e.g. "\u{20AC}"). Empty when unknown —
+    /// amounts are then rendered without a symbol instead of guessing one.
+    var currencyName: String = ""
+
+    /// `categories` and `currencyName` are live server state, not identity, and
+    /// `Project`'s `Codable` conformance is only used for the legacy JSON store.
+    /// Excluding them keeps that decoding working unchanged.
+    private enum CodingKeys: String, CodingKey {
+        case name, password, token, url, id, backend, members, bills, me, projectId
+    }
+
     convenience init(name: String, password: String, token: String, backend: ProjectBackend, url: URL, projectId: String) {
         self.init(name: name, password: password, token: token, backend: backend, url: url, id: nil, projectId: projectId)
     }

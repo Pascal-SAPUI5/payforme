@@ -9,6 +9,8 @@ import AVFoundation
 import SwiftUI
 
 struct ProjectList: View {
+    @Environment(\.pfmTheme) private var theme
+
     @ObservedObject
     var manager = ProjectManager.shared
 
@@ -17,15 +19,53 @@ struct ProjectList: View {
 
     var body: some View {
         NavigationView {
-            VStack {
+            ZStack {
+                PFMBackground()
+
                 List {
-                    ForEach(manager.projects) { project in
-                        ProjectListEntry(project: project, currentProject: manager.currentProject, shareProject: self.$shareProject)
+                    Section {
+                        NavigationLink(destination: AppearanceSettingsView()) {
+                            HStack(spacing: 12) {
+                                Image(systemName: "paintbrush.pointed.fill")
+                                    .font(.footnote.weight(.bold))
+                                    .foregroundColor(theme.palette.accent)
+                                    .frame(width: 32, height: 32)
+                                    .background(theme.palette.accentMuted)
+                                    .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("appearance_title")
+                                        .font(.subheadline.weight(.semibold))
+                                        .foregroundColor(theme.palette.textPrimary)
+                                    Text("appearance_row_subtitle")
+                                        .font(.caption)
+                                        .foregroundColor(theme.palette.textSecondary)
+                                }
+                            }
+                        }
+                        .pfmCard()
+                        .pfmCardRow()
                     }
-                    .onDelete(perform: deleteProject)
+
+                    Section {
+                        ForEach(manager.projects) { project in
+                            ProjectListEntry(project: project,
+                                             currentProject: manager.currentProject,
+                                             shareProject: self.$shareProject)
+                                .pfmCard()
+                                .pfmCardRow()
+                        }
+                        .onDelete(perform: deleteProject)
+                    } header: {
+                        PFMSectionHeader(titleKey: "Known Projects")
+                            .padding(.bottom, 2)
+                    }
                 }
+                .listStyle(InsetGroupedListStyle())
+                .pfmClearListBackground()
                 .sheet(item: $shareProject) { project in
-                    ShareProjectQRCode(project: project)
+                    PFMThemedContainer {
+                        ShareProjectQRCode(project: project)
+                    }
                 }
             }
             .navigationTitle("Projects")
@@ -35,7 +75,9 @@ struct ProjectList: View {
                 showAddProject = true
             }
             .sheet(isPresented: $showAddProject) {
-                AddProjectManualView()
+                PFMThemedContainer {
+                    AddProjectManualView()
+                }
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
@@ -52,6 +94,8 @@ struct ProjectList: View {
 
 struct ServerList_Previews: PreviewProvider {
     static var previews: some View {
-        return ProjectList()
+        PFMThemedContainer {
+            ProjectList()
+        }
     }
 }

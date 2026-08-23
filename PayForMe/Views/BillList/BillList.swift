@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct BillList: View {
+    @Environment(\.pfmTheme) private var theme
+
     @ObservedObject
     var viewModel: BillListViewModel
 
@@ -17,13 +19,32 @@ struct BillList: View {
     @State
     private var showAddBill = false
 
+    private var currency: String? {
+        viewModel.currentProject.currencyName.isEmpty ? nil : viewModel.currentProject.currencyName
+    }
+
+    /// Total of everything currently listed — the number people open the tab for.
+    private var total: Double {
+        viewModel.sortedBills.reduce(0) { $0 + $1.amount }
+    }
+
     var body: some View {
         NavigationView {
-            List {
-                iOS15ListContent
-            }
-            .refreshable {
-                await ProjectManager.shared.refresh()
+            ZStack {
+                PFMBackground()
+
+                // `List` is kept (rather than a LazyVStack) because swipe-to-delete
+                // and its confirmation flow come for free and are already covered
+                // by the delete tests.
+                List {
+                    header
+                    billRows
+                }
+                .listStyle(InsetGroupedListStyle())
+                .pfmClearListBackground()
+                .refreshable {
+                    await ProjectManager.shared.refresh()
+                }
             }
             .navigationTitle("Bills")
             .glassActionButton(systemImage: "bag",
@@ -32,7 +53,9 @@ struct BillList: View {
                 showAddBill = true
             }
             .sheet(isPresented: $showAddBill) {
-                AddBillView(showModal: $showAddBill)
+                PFMThemedContainer {
+                    AddBillView(showModal: $showAddBill)
+                }
             }
             .alert(item: $deleteAlert) { index in
                 Alert(title: Text("Delete Bill"),
@@ -42,27 +65,66 @@ struct BillList: View {
                       },
                       secondaryButton: .cancel())
             }
-            .listStyle(InsetGroupedListStyle())
         }
+        .navigationViewStyle(StackNavigationViewStyle())
+    }
+
+    private var header: some View {
+        VStack(spacing: 14) {
+            HStack(alignment: .firstTextBaseline) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("bills_total")
+                        .font(.caption.weight(.semibold))
+                        .textCase(.uppercase)
+                        .kerning(0.6)
+                        .foregroundColor(theme.palette.textSecondary)
+                    Text(MoneyFormatter.string(total, currency: currency))
+                        .font(Font.system(.title2, design: .rounded).weight(.bold).monospacedDigit())
+                        .foregroundColor(theme.palette.textPrimary)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.6)
+                }
+                Spacer()
+                PFMChip(text: viewModel.currentProject.name, systemImage: "folder.fill")
+            }
+
+            PFMSegmentedControl(selection: $viewModel.sortBy,
+                                options: [.expenseDate, .changedDate]) { option in
+                option == .expenseDate ? "Expense date" : "Changed date"
+            }
+        }
+        .pfmCard()
+        .pfmCardRow()
     }
 
     @ViewBuilder
-    var iOS15ListContent: some View {
-        Section(header: Picker("Sort by", selection: $viewModel.sortBy) {
-            Text("Expense date").tag(BillListViewModel.SortedBy.expenseDate)
-            Text("Changed date").tag(BillListViewModel.SortedBy.changedDate)
-        }.pickerStyle(SegmentedPickerStyle())) {
+    private var billRows: some View {
+        if viewModel.sortedBills.isEmpty {
+            PFMEmptyState(systemImage: "tray",
+                          titleKey: "bills_empty_title",
+                          messageKey: "bills_empty_message")
+                .pfmCard()
+                .pfmCardRow()
+        } else {
             ForEach(viewModel.sortedBills) { bill in
-                NavigationLink(destination:
-                    BillDetailView(showModal: .constant(false),
-                                   viewModel: BillDetailViewModel(currentBill: bill),
-                                   navBarTitle: "Edit Bill",
-                                   sendButtonTitle: "Update Bill")) {
+                ZStack {
                     BillCell(viewModel: self.viewModel, bill: bill)
+                    // A plain NavigationLink would paint its own disclosure
+                    // chevron and highlight over the card; hiding it behind the
+                    // cell keeps the tap target without the chrome.
+                    NavigationLink(destination:
+                        BillDetailView(showModal: .constant(false),
+                                       viewModel: BillDetailViewModel(currentBill: bill),
+                                       navBarTitle: "Edit Bill",
+                                       sendButtonTitle: "Update Bill")) {
+                        EmptyView()
+                    }
+                    .opacity(0)
                 }
+                .pfmCard()
+                .pfmCardRow()
             }
-            .onDelete(perform: {
-                offset in
+            .onDelete(perform: { offset in
                 self.deleteAlert = offset
             })
         }
@@ -92,6 +154,8 @@ struct BillList_Previews: PreviewProvider {
         previewProject.bills = previewBills
         previewProject.members = previewPersons
         viewModel.currentProject = previewProject
-        return BillList(viewModel: viewModel)
+        return PFMThemedContainer {
+            BillList(viewModel: viewModel)
+        }
     }
 }

@@ -34,17 +34,13 @@ class BalanceViewModel: ObservableObject {
             }
     }
 
+    /// Delegates to `StatisticsEngine` so this screen and the Statistics tab can
+    /// never disagree about what someone owes. The formula is unchanged: a bill
+    /// is split equally between its owers, and balance = paid − owed.
     func setBalances() {
-        balances = currentProject.members.values.map {
-            member in
-            let paid = currentProject.bills.filter { $0.payer_id == member.id }.map { $0.amount }.reduce(0.0, +)
-            let owes = currentProject.bills.compactMap { bill in
-                bill.owers.first { ower in ower.id == member.id } == nil ? nil : bill.amount / Double(bill.owers.count)
-            }
-            .reduce(0.0, -)
-
-            return Balance(id: member.id, amount: paid + owes, person: member)
-        }
+        balances = StatisticsEngine
+            .memberStatistics(bills: currentProject.bills, members: currentProject.members)
+            .map { Balance(id: $0.person.id, amount: $0.balance, person: $0.person) }
     }
 }
 

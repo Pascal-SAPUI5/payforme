@@ -21,14 +21,6 @@ extension Color {
         self.init(red: Double(pc.r) / 255, green: Double(pc.g) / 255, blue: Double(pc.b) / 255, opacity: 1)
     }
 
-    static var PFMBackground: Color {
-        if UIScreen.main.traitCollection.userInterfaceStyle == .dark {
-            return Color.black
-        } else {
-            return Color(UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.0))
-        }
-    }
-
     static func standardColorById(id: Int) -> Color {
         let colors = [
             rgb(88, 86, 214),
@@ -79,10 +71,27 @@ extension JSONEncoder {
 }
 
 extension DateFormatter {
+    /// Wire format. Must stay `yyyy-MM-dd` — it is what both backends parse.
     static let cospend: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
 
+        return formatter
+    }()
+
+    /// What the user reads. The wire format was previously shown verbatim in the
+    /// bill list, which meant every user on earth saw ISO dates.
+    static let cospendDisplay: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        return formatter
+    }()
+
+    /// Short form for dense rows, e.g. "14 May".
+    static let cospendCompact: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.setLocalizedDateFormatFromTemplate("d MMM")
         return formatter
     }()
 }

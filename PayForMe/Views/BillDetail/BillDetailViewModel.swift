@@ -68,7 +68,19 @@ class BillDetailViewModel: ObservableObject {
 
         let actualOwers = povm.actualOwers()
 
-        return Bill(id: billID, amount: doubleAmount, what: topic, date: date, payer_id: selectedPayer, owers: actualOwers, repeat: currentProject.backend == .cospend ? "n" : nil, lastchanged: 0)
+        // The edit form has no category or payment-mode field, so both are
+        // carried over from the bill being edited. Dropping them here would
+        // reset every edited bill to "uncategorised" on the server.
+        return Bill(id: billID,
+                    amount: doubleAmount,
+                    what: topic,
+                    date: date,
+                    payer_id: selectedPayer,
+                    owers: actualOwers,
+                    repeat: currentProject.backend == .cospend ? "n" : nil,
+                    lastchanged: 0,
+                    categoryid: currentBill.categoryid,
+                    paymentmode: currentBill.paymentmode)
     }
 
     func prefillData() {
