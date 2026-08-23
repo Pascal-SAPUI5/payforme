@@ -21,6 +21,9 @@ struct Bill: Codable, Identifiable, Hashable {
     var categoryid: Int?
     /// Cospend payment mode ("n" = none, "c" = card, "b" = cash, ...).
     var paymentmode: String?
+    /// Free-text note Cospend keeps alongside a bill. iHateMoney has no
+    /// equivalent and never sends it.
+    var comment: String?
 
     func paramsFor(_ backend: ProjectBackend) -> [String: Any] {
         var dict: [String: Any] = [
@@ -37,6 +40,10 @@ struct Bill: Codable, Identifiable, Hashable {
             // place and were hardcoded back to the defaults on every PUT.
             dict["paymentmode"] = paymentmode ?? "n"
             dict["categoryid"] = (categoryid ?? 0).description
+            // Sent even when empty, because clearing the note in the app has to
+            // clear it on the server as well; omitting the key would keep the
+            // old value.
+            dict["comment"] = comment ?? ""
 
             if let rep = self.repeat {
                 dict["repeat"] = rep

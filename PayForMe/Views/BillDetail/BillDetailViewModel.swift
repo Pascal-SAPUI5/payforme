@@ -30,6 +30,11 @@ class BillDetailViewModel: ObservableObject {
     @Published
     var billDate: Date = Date()
 
+    /// Cospend only. iHateMoney bills have no comment, and the field stays
+    /// hidden for them.
+    @Published
+    var comment = ""
+
     var povm: PotentialOwersViewModel
 
     init(currentBill: Bill) {
@@ -79,7 +84,8 @@ class BillDetailViewModel: ObservableObject {
                     repeat: currentProject.backend == .cospend ? "n" : nil,
                     lastchanged: 0,
                     categoryid: currentBill.categoryid,
-                    paymentmode: currentBill.paymentmode)
+                    paymentmode: currentBill.paymentmode,
+                    comment: comment)
     }
 
     func prefillData() {
@@ -95,5 +101,6 @@ class BillDetailViewModel: ObservableObject {
             }
         }
         billDate = currentBill.date
+        comment = currentBill.comment ?? ""
     }
 }

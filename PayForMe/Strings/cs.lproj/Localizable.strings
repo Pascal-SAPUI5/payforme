@@ -150,3 +150,6 @@
 "member_error_forbidden" = "To obvykle vyžaduje práva správce projektu. Sdílené heslo projektu může umožňovat jen přístup účastníka.";
 "member_error_network" = "Není spojení se serverem. Zkontrolujte síť a zkuste to znovu.";
 "member_error_generic" = "Server odmítl požadavek (HTTP %d).";
+
+"Comment" = "Poznámka";
+"Add a note" = "Přidat poznámku";
