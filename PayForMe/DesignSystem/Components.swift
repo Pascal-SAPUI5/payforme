@@ -86,6 +86,22 @@ extension View {
         }
     }
 
+    /// Letter spacing for the small uppercase labels.
+    ///
+    /// `kerning` is iOS 16+ — on both `Text` and `View` — so on iOS 15 the label
+    /// simply renders without the extra tracking instead of the whole design
+    /// system failing to build. It sits on `View` rather than `Text` because
+    /// every call site applies it after `textCase`, which already erases to a
+    /// view.
+    @ViewBuilder
+    func pfmTracking(_ amount: CGFloat) -> some View {
+        if #available(iOS 16.0, *) {
+            self.kerning(amount)
+        } else {
+            self
+        }
+    }
+
     /// Rows that should look like free-floating cards rather than table cells.
     func pfmCardRow() -> some View {
         listRowBackground(Color.clear)
@@ -122,7 +138,7 @@ struct PFMSectionHeader: View {
                 Text(titleKey)
                     .font(.footnote.weight(.semibold))
                     .textCase(.uppercase)
-                    .kerning(0.8)
+                    .pfmTracking(0.8)
                     .foregroundColor(theme.palette.textSecondary)
                 if let subtitleKey = subtitleKey {
                     Text(subtitleKey)

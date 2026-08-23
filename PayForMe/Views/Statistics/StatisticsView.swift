@@ -61,7 +61,7 @@ struct StatisticsView: View {
             Text("stats_total_spent")
                 .font(.footnote.weight(.semibold))
                 .textCase(.uppercase)
-                .kerning(0.8)
+                .pfmTracking(0.8)
                 .foregroundColor(theme.palette.onHero.opacity(0.75))
 
             Text(MoneyFormatter.string(viewModel.statistics.totalSpent, currency: viewModel.currency))

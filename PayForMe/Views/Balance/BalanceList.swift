@@ -96,7 +96,7 @@ struct BalanceList: View {
             Text("balances_outstanding")
                 .font(.caption.weight(.semibold))
                 .textCase(.uppercase)
-                .kerning(0.6)
+                .pfmTracking(0.6)
                 .foregroundColor(theme.palette.textSecondary)
             Text(MoneyFormatter.string(outstanding, currency: currency))
                 .font(Font.system(.title2, design: .rounded).weight(.bold).monospacedDigit())

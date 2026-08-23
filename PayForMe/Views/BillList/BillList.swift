@@ -76,7 +76,7 @@ struct BillList: View {
                     Text("bills_total")
                         .font(.caption.weight(.semibold))
                         .textCase(.uppercase)
-                        .kerning(0.6)
+                        .pfmTracking(0.6)
                         .foregroundColor(theme.palette.textSecondary)
                     Text(MoneyFormatter.string(total, currency: currency))
                         .font(Font.system(.title2, design: .rounded).weight(.bold).monospacedDigit())

@@ -46,7 +46,11 @@ struct ProjectList: View {
                         .pfmCardRow()
                     }
 
-                    Section {
+                    // The `Section { } header: { }` spelling maps to
+                    // `init(content:header:)`; this older form is unambiguously
+                    // available on the iOS 15 deployment target.
+                    Section(header: PFMSectionHeader(titleKey: "Known Projects")
+                        .padding(.bottom, 2)) {
                         ForEach(manager.projects) { project in
                             ProjectListEntry(project: project,
                                              currentProject: manager.currentProject,
@@ -55,9 +59,6 @@ struct ProjectList: View {
                                 .pfmCardRow()
                         }
                         .onDelete(perform: deleteProject)
-                    } header: {
-                        PFMSectionHeader(titleKey: "Known Projects")
-                            .padding(.bottom, 2)
                     }
                 }
                 .listStyle(InsetGroupedListStyle())
