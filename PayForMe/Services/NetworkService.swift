@@ -77,6 +77,28 @@ class NetworkService {
             .eraseToAnyPublisher()
     }
 
+    /// Fetches the project root document to pick up the server-defined expense
+    /// categories and currency label, which the statistics screen needs.
+    ///
+    /// Cospend-only: iHateMoney has no categories, so we short-circuit rather
+    /// than firing a request whose response we would throw away. Failures are
+    /// mapped to `nil` — statistics degrade to "no category breakdown" instead
+    /// of blocking the bills and members that arrive alongside them.
+    func loadProjectMetadataPublisher(_ project: Project) -> AnyPublisher<ProjectMetadataResponse?, Never> {
+        guard project.backend == .cospend else {
+            return Just(nil).eraseToAnyPublisher()
+        }
+        let request = buildURLRequest("", params: [:], project: project)
+        return URLSession.shared.dataTaskPublisher(for: request)
+            .map { data, response -> ProjectMetadataResponse? in
+                guard let httpResponse = response as? HTTPURLResponse,
+                      httpResponse.statusCode == 200 else { return nil }
+                return try? JSONDecoder().decode(ProjectMetadataResponse.self, from: data)
+            }
+            .replaceError(with: nil)
+            .eraseToAnyPublisher()
+    }
+
     func testProject(_ project: Project) -> AnyPublisher<(Project, Int), Never> {
         let request = buildURLRequest("dummy", params: [:], project: project)
         let requestPub = URLSession.shared.dataTaskPublisher(for: request)

@@ -28,11 +28,15 @@ class PayForMeUITests: XCTestCase {
         setupSnapshot(app)
         app.launchArguments += ["UI-Testing"]
         app.launch()
+        // Tab order is Bills, Statistics, Members, Projects — indices shift if a
+        // tab is added, so keep this in step with `ContentView.tabBar`.
         let tabBarButtons = app.tabBars.firstMatch.buttons
         snapshot("Bill List")
         tabBarButtons.element(boundBy: 1).tap()
-        snapshot("Balance List")
+        snapshot("Statistics")
         tabBarButtons.element(boundBy: 2).tap()
+        snapshot("Balance List")
+        tabBarButtons.element(boundBy: 3).tap()
         snapshot("Known Projects")
         tabBarButtons.element(boundBy: 0).tap()
         app.buttons["Add Bill"].tap()

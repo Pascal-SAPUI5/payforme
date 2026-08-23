@@ -63,6 +63,7 @@ class ProjectManager: ObservableObject {
 
         let billsPublisher = NetworkService.shared.loadBillsPublisher(project)
         let membersPublisher = NetworkService.shared.loadMembersPublisher(project)
+        let metadataPublisher = NetworkService.shared.loadProjectMetadataPublisher(project)
 
         var completionInvoked = false
         let invokeCompletionOnce: () -> Void = {
@@ -71,10 +72,17 @@ class ProjectManager: ObservableObject {
             completion?()
         }
 
-        loadCancellable = Publishers.Zip(billsPublisher, membersPublisher)
-            .map { bills, members in
+        loadCancellable = Publishers.Zip3(billsPublisher, membersPublisher, metadataPublisher)
+            .map { bills, members, metadata in
                 project.bills = bills
                 project.members = members
+                // Metadata is best-effort. Keeping the previous values on a
+                // failed fetch avoids the category chart blinking out of
+                // existence every time the request happens to fail.
+                if let metadata = metadata {
+                    project.categories = metadata.categories
+                    project.currencyName = metadata.currencyName
+                }
                 return project
             }
             .receive(on: DispatchQueue.main)

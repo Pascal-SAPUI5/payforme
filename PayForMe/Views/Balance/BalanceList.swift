@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct BalanceList: View {
+    @Environment(\.pfmTheme) private var theme
+
     @ObservedObject
     var viewModel: BalanceViewModel
 
@@ -22,7 +24,10 @@ struct BalanceList: View {
 
     var body: some View {
         NavigationView {
-            list
+            ZStack {
+                PFMBackground()
+                list
+            }
                 .navigationTitle("Members")
                 .glassActionButton(systemImage: "person.fill",
                                    accessibilityLabel: "Add member",
@@ -30,33 +35,85 @@ struct BalanceList: View {
                     showAddUser()
                 }
                 .sheet(isPresented: $addingUser) {
-                    AddMemberView(memberName: $memberName, addMemberAction: submitUser, cancelButtonAction: cancelAddUser)
-                        .alert(item: $memberAddError) { error in
-                            Alert(title: Text("Could not add member"),
-                                  message: Text(memberErrorMessage(for: error.code)),
-                                  dismissButton: .default(Text("OK")))
-                        }
+                    PFMThemedContainer {
+                        AddMemberView(memberName: $memberName,
+                                      addMemberAction: submitUser,
+                                      cancelButtonAction: cancelAddUser)
+                            .alert(item: $memberAddError) { error in
+                                Alert(title: Text("Could not add member"),
+                                      message: Text(memberErrorMessage(for: error.code)),
+                                      dismissButton: .default(Text("OK")))
+                            }
+                    }
                 }
         }.navigationViewStyle(StackNavigationViewStyle())
+    }
+
+    /// Sum of everything owed, i.e. how far the project is from settled.
+    private var outstanding: Double {
+        viewModel.balances.filter { $0.amount > 0 }.reduce(0) { $0 + $1.amount }
+    }
+
+    private var currency: String? {
+        viewModel.currentProject.currencyName.isEmpty ? nil : viewModel.currentProject.currencyName
     }
 
     @ViewBuilder
     var list: some View {
         List {
+            summaryHeader
+
             ForEach(viewModel.balances.sorted(by: balanceSort(_:_:))) {
                 balance in
                 if balance.amount < 0 {
-                    NavigationLink(destination: BillDetailView(showModal: .constant(false), viewModel: BillDetailViewModel(currentBill: self.createSettlingBill(balance: balance)))) {
-                        BalanceCell(balance: balance)
+                    // Only debtors get a tappable row: tapping one opens a
+                    // prefilled bill that settles them up.
+                    ZStack {
+                        BalanceCell(balance: balance, currency: currency)
+                        NavigationLink(destination: BillDetailView(showModal: .constant(false), viewModel: BillDetailViewModel(currentBill: self.createSettlingBill(balance: balance)))) {
+                            EmptyView()
+                        }
+                        .opacity(0)
                     }
+                    .pfmCard()
+                    .pfmCardRow()
                 } else {
-                    BalanceCell(balance: balance)
+                    BalanceCell(balance: balance, currency: currency)
+                        .pfmCard()
+                        .pfmCardRow()
                 }
             }
         }
+        .listStyle(InsetGroupedListStyle())
+        .pfmClearListBackground()
         .refreshable {
             await ProjectManager.shared.refresh()
         }
+    }
+
+    private var summaryHeader: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text("balances_outstanding")
+                .font(.caption.weight(.semibold))
+                .textCase(.uppercase)
+                .kerning(0.6)
+                .foregroundColor(theme.palette.textSecondary)
+            Text(MoneyFormatter.string(outstanding, currency: currency))
+                .font(Font.system(.title2, design: .rounded).weight(.bold).monospacedDigit())
+                // Outstanding debt is shown as a negative signal even though the
+                // number itself is positive, so it reads red until it hits zero.
+                .foregroundColor(outstanding > 0.005 ? theme.palette.negative : theme.palette.textSecondary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.6)
+            Text(outstanding > 0.005
+                 ? LocalizedStringKey("balances_outstanding_hint")
+                 : LocalizedStringKey("stats_all_settled"))
+                .font(.caption)
+                .foregroundColor(theme.palette.textTertiary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .pfmCard()
+        .pfmCardRow()
     }
 
     func balanceSort(_ a: Balance, _ b: Balance) -> Bool {
@@ -115,20 +172,44 @@ struct BalanceList_Previews: PreviewProvider {
         let vm = BalanceViewModel()
         vm.currentProject = previewProject
         vm.setBalances()
-        return BalanceList(viewModel: vm, addingUser: false)
+        return PFMThemedContainer {
+            BalanceList(viewModel: vm, addingUser: false)
+        }
     }
 }
 
 struct BalanceCell: View {
+    @Environment(\.pfmTheme) private var theme
+
     let balance: Balance
+    var currency: String?
+
+    private var balanceCaption: LocalizedStringKey {
+        if balance.amount > 0.005 { return "balance_is_owed" }
+        if balance.amount < -0.005 { return "balance_owes" }
+        return "balance_settled"
+    }
 
     var body: some View {
-        HStack {
-            PersonText(person: balance.person)
-            Spacer()
-            Text(" \(String(format: "%.2f", balance.amount))")
-                .font(.headline)
-                .foregroundColor(balance.amount >= 0 ? Color.primary : Color.red)
-        }.padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+        HStack(spacing: 12) {
+            PFMAvatar(person: balance.person, size: 40)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(balance.person.name)
+                    .font(.headline)
+                    .foregroundColor(theme.palette.textPrimary)
+                    .lineLimit(1)
+                Text(balanceCaption)
+                    .font(.caption)
+                    .foregroundColor(theme.palette.textTertiary)
+            }
+
+            Spacer(minLength: 8)
+
+            Text(MoneyFormatter.signed(balance.amount, currency: currency))
+                .font(Font.system(.headline, design: .rounded).monospacedDigit())
+                .foregroundColor(theme.moneyColor(balance.amount))
+        }
+        .accessibilityElement(children: .combine)
     }
 }

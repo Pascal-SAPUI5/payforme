@@ -33,33 +33,40 @@ struct BillDetailView: View {
     var sendingInProgress = LoadingState.notStarted
 
     var body: some View {
-        VStack {
-            Form {
-                Section(header: Text("Payer")) {
-                    WhoPaidView(members: Array(viewModel.currentProject.members.values).sorted{ $0.name < $1.name }, selectedPayer: self.$viewModel.selectedPayer).onAppear {
-                        if self.viewModel.currentProject.members[self.viewModel.selectedPayer] == nil {
-                            guard let id = self.viewModel.currentProject.members.first?.key else { return }
-                            self.viewModel.selectedPayer = id
+        ZStack {
+            PFMBackground()
+
+            VStack(spacing: 0) {
+                Form {
+                    Section(header: Text("Payer")) {
+                        WhoPaidView(members: Array(viewModel.currentProject.members.values).sorted{ $0.name < $1.name }, selectedPayer: self.$viewModel.selectedPayer).onAppear {
+                            if self.viewModel.currentProject.members[self.viewModel.selectedPayer] == nil {
+                                guard let id = self.viewModel.currentProject.members.first?.key else { return }
+                                self.viewModel.selectedPayer = id
+                            }
+                        }
+                        TextField("What was paid", text: self.$viewModel.topic)
+                        TextField("How much", text: self.$viewModel.amount).keyboardType(.decimalPad)
+                    }
+                    Section(header: Text("Date")) {
+                        DatePicker(selection: self.$viewModel.billDate, displayedComponents: [.date]) {
+                            Label("Bill date", systemImage: "calendar").labelStyle(.iconOnly)
                         }
                     }
-                    TextField("What was paid", text: self.$viewModel.topic)
-                    TextField("How much", text: self.$viewModel.amount).keyboardType(.decimalPad)
-                }
-                Section(header: Text("Date")) {
-                    DatePicker(selection: self.$viewModel.billDate, displayedComponents: [.date]) {
-                        Label("Bill date", systemImage: "calendar").labelStyle(.iconOnly)
+                    Section(header: Text("Owers")) {
+                        PotentialOwersView(vm: viewModel.povm)
                     }
                 }
-                Section(header: Text("Owers")) {
-                    PotentialOwersView(vm: viewModel.povm)
-                }
+                .pfmClearListBackground()
+                FancyLoadingButton(isLoading: sendingInProgress, add: false, action: self.sendBillToServer, text: showModal ? "Create Bill" : "Update Bill")
+                    .disabled(sendBillButtonDisabled)
+                    .onReceive(self.viewModel.validatedInput) {
+                        self.sendBillButtonDisabled = !$0
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 12)
+                    .padding(.bottom, 20)
             }
-            FancyLoadingButton(isLoading: sendingInProgress, add: false, action: self.sendBillToServer, text: showModal ? "Create Bill" : "Update Bill")
-                .disabled(sendBillButtonDisabled)
-                .onReceive(self.viewModel.validatedInput) {
-                    self.sendBillButtonDisabled = !$0
-                }
-                .padding()
         }
         .navigationTitle(navBarTitle)
         .navigationBarTitleDisplayMode(.inline)
@@ -86,6 +93,10 @@ struct BillDetailView_Previews: PreviewProvider {
     static var previews: some View {
         let vm = BillDetailViewModel(currentBill: previewBills[0])
         vm.currentProject = previewProject
-        return BillDetailView(showModal: .constant(true), viewModel: vm)
+        return PFMThemedContainer {
+            NavigationView {
+                BillDetailView(showModal: .constant(true), viewModel: vm)
+            }
+        }
     }
 }
