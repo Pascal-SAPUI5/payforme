@@ -16,6 +16,11 @@ struct Bill: Codable, Identifiable, Hashable {
     var owers: [Person]
     var `repeat`: String?
     var lastchanged: Int?
+    /// Cospend category id. Built-in categories are negative, custom ones
+    /// positive, `0`/`nil` means uncategorised. iHateMoney never sends it.
+    var categoryid: Int?
+    /// Cospend payment mode ("n" = none, "c" = card, "b" = cash, ...).
+    var paymentmode: String?
 
     func paramsFor(_ backend: ProjectBackend) -> [String: Any] {
         var dict: [String: Any] = [
@@ -26,8 +31,12 @@ struct Bill: Codable, Identifiable, Hashable {
         ]
         if backend == .cospend {
             dict["payed_for"] = owers.map { $0.id.description }.joined(separator: ",")
-            dict["paymentmode"] = "n"
-            dict["categoryid"] = "0"
+            // Round-trip whatever the server told us instead of resetting to the
+            // defaults. Updating a bill previously wiped its category and
+            // payment mode, because the fields were never decoded in the first
+            // place and were hardcoded back to the defaults on every PUT.
+            dict["paymentmode"] = paymentmode ?? "n"
+            dict["categoryid"] = (categoryid ?? 0).description
 
             if let rep = self.repeat {
                 dict["repeat"] = rep
