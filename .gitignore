@@ -70,3 +70,5 @@ fastlane/.env
 
 ## MacOS
 .DS_Store
+# Playwright MCP artefacts (screenshots, snapshots, console logs)
+.playwright-mcp/
