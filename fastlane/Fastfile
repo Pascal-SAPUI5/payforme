@@ -39,15 +39,15 @@ platform :ios do
 
   desc "Push a new beta build to TestFlight"
   lane :beta do
-    increment_build_number(xcodeproj: "PayForMe.xcodeproj")
-    get_provisioning_profile(app_identifier: "de.mayflower.PayForMe")
+    increment_build_number(xcodeproj: "Umlage.xcodeproj")
+    get_provisioning_profile(app_identifier: "de.wachowski.umlage")
     build_app(
-      scheme: "PayForMe",
+      scheme: "Umlage",
       export_options: {
         signingStyle: "manual",
         teamID: "22BT3L9N5V",
         provisioningProfiles: {
-          "de.mayflower.PayForMe" => lane_context[SharedValues::SIGH_NAME]
+          "de.wachowski.umlage" => lane_context[SharedValues::SIGH_NAME]
         }
       }
     )
@@ -57,7 +57,7 @@ platform :ios do
   lane :icon do
     appicon(
       appicon_devices: [:iphone, :ipad, :ios_marketing],
-      appicon_path: 'PayForMe/Assets.xcassets'
+      appicon_path: 'Umlage/Assets.xcassets'
     )
   end
 
@@ -121,15 +121,15 @@ platform :ios do
   end
 
   lane :deliverToAppstore do
-    increment_build_number(xcodeproj: "PayForMe.xcodeproj")
-    get_provisioning_profile(app_identifier: "de.mayflower.PayForMe")
+    increment_build_number(xcodeproj: "Umlage.xcodeproj")
+    get_provisioning_profile(app_identifier: "de.wachowski.umlage")
     build_app(
-      scheme: "PayForMe",
+      scheme: "Umlage",
       export_options: {
         signingStyle: "manual",
         teamID: "22BT3L9N5V",
         provisioningProfiles: {
-          "de.mayflower.PayForMe" => lane_context[SharedValues::SIGH_NAME]
+          "de.wachowski.umlage" => lane_context[SharedValues::SIGH_NAME]
         }
       }
     )

@@ -1,4 +1,4 @@
-A fresh look for iOS 26: PayForMe now fully adopts Liquid Glass. The tab bar and buttons float translucently above your content and adapt to light and dark automatically. A floating, thumb-reachable plus button is available everywhere for adding things.
+A fresh look for iOS 26: Umlage now fully adopts Liquid Glass. The tab bar and buttons float translucently above your content and adapt to light and dark automatically. A floating, thumb-reachable plus button is available everywhere for adding things.
 
 Adding projects is easier now:
 - iHateMoney projects can be added via invite link – server and project are detected automatically

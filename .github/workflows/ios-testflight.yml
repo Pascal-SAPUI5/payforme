@@ -1,7 +1,7 @@
-# Baut PayForMe signiert und laedt es zu TestFlight hoch.
+# Baut Umlage signiert und laedt es zu TestFlight hoch.
 #
 # WICHTIG - Bundle-ID und Team:
-# Im Projekt stehen de.mayflower.PayForMe und Team 22BT3L9N5V. Beides gehoert
+# Im Projekt stehen de.mayflower.Umlage und Team 22BT3L9N5V. Beides gehoert
 # dem urspruenglichen Entwickler, nicht uns. Unter fremder Bundle-ID nimmt App
 # Store Connect keinen Upload an.
 #
@@ -61,8 +61,8 @@ jobs:
       # als Literal (nicht als $(CURRENT_PROJECT_VERSION)), deshalb PlistBuddy.
       - name: Build-Nummer setzen
         run: |
-          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${{ github.run_number }}" PayForMe/Info.plist
-          /usr/libexec/PlistBuddy -c "Print :CFBundleVersion" PayForMe/Info.plist
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${{ github.run_number }}" Umlage/Info.plist
+          /usr/libexec/PlistBuddy -c "Print :CFBundleVersion" Umlage/Info.plist
 
       - name: App-Store-Connect-Schluessel ablegen
         env:
@@ -83,11 +83,11 @@ jobs:
           TF_BUNDLE_ID: ${{ vars.TF_BUNDLE_ID }}
         run: |
           xcodebuild archive \
-            -project PayForMe.xcodeproj \
-            -scheme PayForMe \
+            -project Umlage.xcodeproj \
+            -scheme Umlage \
             -configuration Release \
             -destination "generic/platform=iOS" \
-            -archivePath "$RUNNER_TEMP/PayForMe.xcarchive" \
+            -archivePath "$RUNNER_TEMP/Umlage.xcarchive" \
             -derivedDataPath "$RUNNER_TEMP/DerivedData" \
             -allowProvisioningUpdates \
             -authenticationKeyPath ~/private_keys/AuthKey_${ASC_KEY_ID}.p8 \
@@ -119,7 +119,7 @@ jobs:
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
         run: |
           xcodebuild -exportArchive \
-            -archivePath "$RUNNER_TEMP/PayForMe.xcarchive" \
+            -archivePath "$RUNNER_TEMP/Umlage.xcarchive" \
             -exportPath "$RUNNER_TEMP/export" \
             -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" \
             -allowProvisioningUpdates \

@@ -1,4 +1,4 @@
-Un nouveau design pour iOS 26 : PayForMe adopte désormais entièrement « Liquid Glass ». La barre d'onglets et les boutons flottent de manière translucide au-dessus du contenu et s'adaptent automatiquement au mode clair/sombre. Pour ajouter des éléments, un bouton plus flottant et accessible au pouce est disponible partout.
+Un nouveau design pour iOS 26 : Umlage adopte désormais entièrement « Liquid Glass ». La barre d'onglets et les boutons flottent de manière translucide au-dessus du contenu et s'adaptent automatiquement au mode clair/sombre. Pour ajouter des éléments, un bouton plus flottant et accessible au pouce est disponible partout.
 
 Ajouter des projets est devenu plus simple :
 - Les projets iHateMoney peuvent être ajoutés via un lien d'invitation – le serveur et le projet sont détectés automatiquement
