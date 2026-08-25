@@ -745,7 +745,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 22BT3L9N5V;
+				DEVELOPMENT_TEAM = 6NU7RN8MB6;
 				INFOPLIST_FILE = PayForMeTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -753,7 +753,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = de.maxtharr.PayForMeTests;
+				PRODUCT_BUNDLE_IDENTIFIER = de.wachowski.umlage.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -767,7 +767,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 22BT3L9N5V;
+				DEVELOPMENT_TEAM = 6NU7RN8MB6;
 				INFOPLIST_FILE = PayForMeTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -775,7 +775,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = de.maxtharr.PayForMeTests;
+				PRODUCT_BUNDLE_IDENTIFIER = de.wachowski.umlage.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -907,7 +907,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 114;
 				DEVELOPMENT_ASSET_PATHS = "\"PayForMe/Preview Content\"";
-				DEVELOPMENT_TEAM = 22BT3L9N5V;
+				DEVELOPMENT_TEAM = 6NU7RN8MB6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = PayForMe/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
@@ -917,7 +917,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.6.0;
-				PRODUCT_BUNDLE_IDENTIFIER = de.mayflower.PayForMe;
+				PRODUCT_BUNDLE_IDENTIFIER = de.wachowski.umlage;
 				PRODUCT_NAME = PayForMe;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -932,7 +932,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 114;
 				DEVELOPMENT_ASSET_PATHS = "\"PayForMe/Preview Content\"";
-				DEVELOPMENT_TEAM = 22BT3L9N5V;
+				DEVELOPMENT_TEAM = 6NU7RN8MB6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = PayForMe/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
@@ -942,7 +942,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.6.0;
-				PRODUCT_BUNDLE_IDENTIFIER = de.mayflower.PayForMe;
+				PRODUCT_BUNDLE_IDENTIFIER = de.wachowski.umlage;
 				PRODUCT_NAME = PayForMe;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -953,14 +953,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 22BT3L9N5V;
+				DEVELOPMENT_TEAM = 6NU7RN8MB6;
 				INFOPLIST_FILE = PayForMeUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mayflower.PayForMeUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = de.wachowski.umlage.uitests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -972,14 +972,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 22BT3L9N5V;
+				DEVELOPMENT_TEAM = 6NU7RN8MB6;
 				INFOPLIST_FILE = PayForMeUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mayflower.PayForMeUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = de.wachowski.umlage.uitests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
