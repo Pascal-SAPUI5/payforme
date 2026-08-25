@@ -1,4 +1,4 @@
-Frisches Design für iOS 26: Umlage nutzt jetzt durchgängig „Liquid Glass". Tab-Leiste und Buttons schweben transparent über den Inhalten und passen sich automatisch an Hell/Dunkel an. Zum Hinzufügen gibt es überall einen schwebenden, daumen-erreichbaren Plus-Button.
+Frisches Design für iOS 26: Divido nutzt jetzt durchgängig „Liquid Glass". Tab-Leiste und Buttons schweben transparent über den Inhalten und passen sich automatisch an Hell/Dunkel an. Zum Hinzufügen gibt es überall einen schwebenden, daumen-erreichbaren Plus-Button.
 
 Projekte hinzufügen ist einfacher geworden:
 - iHateMoney-Projekte lassen sich per Invite-Link hinzufügen – Server und Projekt werden automatisch erkannt

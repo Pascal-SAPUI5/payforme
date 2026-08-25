@@ -1,0 +1,217 @@
+
+
+"Add Bill" = "Añadir una factura";
+
+
+"Add Project" = "Añadir el proyecto";
+
+/*  */
+"Add a default payer for new bills (e.g. yourself)" = "Añadir un pagador por defecto para las nuevas facturas (por ejemplo, usted mismo)";
+
+
+"Add member" = "Añadir un membro";
+
+
+"Add project" = "Añadir un proyecto";
+
+
+"All" = "Todos";
+
+
+"Bills" = "Cuentas";
+
+/*  */
+"Changed date" = "Fecha modificada";
+
+/*  */
+"Cospend is a NextCloud app" = "Cospend es una aplicación de NextCloud";
+
+
+"Could not find server" = "Servidor no encontrado";
+
+
+"Create Bill" = "Crear la factura";
+
+/*  */
+"Date" = "Fecha";
+
+
+"Delete" = "Eliminar";
+
+/*  */
+"Delete Bill" = "Borrar factura";
+
+/*  */
+"Do you really want to erase the bill from the server?" = "¿De verdad quieres borrar la factura del servidor?";
+
+
+"Edit Bill" = "Editar la factura";
+
+
+"Enter project id" = "Entrar el ID del proyecto";
+
+
+"Enter project password (Optional)" = "Entrar la contraseña del proyecto (opcional)";
+
+/*  */
+"Expense date" = "Fecha de gasto";
+
+
+"Finding Server" = "Encontrando el proyecto";
+
+/*  */
+"Go to settings" = "Ir a la configuración";
+
+
+"How much" = "¿Cuanto?";
+
+/*  */
+"If you want to scan your project as a QR code, you need to allow this app to use your camera. Otherwise please navigate back and fill out the information manually." = "Si desea escanear su proyecto como un código QR, debe permitir que esta aplicación utilice su cámara. De lo contrario, vuelve atrás y rellena la información manualmente.";
+
+
+"Known Projects" = "Lista de proyectos";
+
+
+"Member name" = "Nombre";
+
+
+"Members" = "Membros";
+
+
+"None" = "Nadie";
+
+
+"Owers" = "Prestatarios";
+
+
+"Paste Link" = "Pegar enlace";
+
+
+"Payer" = "Pagador";
+
+/*  */
+"Please allow us to use the camera in order to scan the Cospend QR code" = "Permítanos utilizar la cámara para escanear el código QR de Cospend.";
+
+
+"Project ID & Password" = "ID del proyecto y contraseña";
+
+/*  */
+"Projects" = "Proyectos";
+
+/*  */
+"Scan the Cospend QR code to proceed" = "Escanee el código QR de Cospend para continuar";
+
+/*
+  Localizable.strings
+  PayForMe
+
+  Created by Max Tharr on 22.03.20.
+  Copyright © 2020 Mayflower GmbH. All rights reserved.
+ */
+"Server Address" = "Dirreción del servidor";
+
+/*  */
+"Server Address (Optional)" = "Dirección del servidor (opcional)";
+
+
+"Submit" = "Seguir";
+
+/*  */
+"Sure" = "Claro";
+
+/*  */
+"To get started sharing expenses with friends, you must add a project from Cospend or iHateMoney. To do this, scan the QR code or click the link for the project that was shared with you." = "Para empezar a compartir gastos con amigos, debes añadir un proyecto de Cospend o iHateMoney. Para ello, escanea el código QR o haz clic en el enlace del proyecto que te han compartido.";
+
+/*  */
+"To use iHateMoney, host an own instance or register at" = "Para utilizar iHateMoney, aloje una instancia propia o regístrese en";
+
+/*  */
+"Type password here" = "Escriba aquí la contraseña";
+
+/*  */
+"URL wrong, please scan right barcode" = "URL incorrecta, por favor, escanee el código de barras correcto";
+
+
+"Unauthorized: Wrong project id/pw" = "No autorizado: Proyecto o contraseña invorrecta";
+
+
+"Update Bill" = "Actualizar la factura";
+
+/*  */
+"Welcome to Divido!" = "¡Bienvenido a Divido!";
+
+
+"What was paid" = "¿Qué se pagó?";
+
+/* Feedback round 2.6.0 */
+"Cancel" = "Cancelar";
+"Scan QR code" = "Escanear código QR";
+"Backend" = "Backend";
+"server_hint_cospend" = "Tu servidor Cospend autoalojado (Nextcloud).";
+"server_hint_ihatemoney" = "Déjalo vacío para la instancia oficial, o introduce tu instancia.";
+"Could not add member" = "No se pudo añadir el miembro";
+"member_error_forbidden" = "Esto suele requerir permisos de mantenedor del proyecto. La contraseña compartida puede dar solo acceso de participante.";
+"member_error_network" = "Sin conexión con el servidor. Comprueba tu red e inténtalo de nuevo.";
+"member_error_generic" = "El servidor rechazó la solicitud (HTTP %d).";
+"Invite Link" = "Enlace de invitación";
+"Enter invite link" = "Introducir el enlace de invitación";
+"invite_link_hint" = "Pega el enlace de invitación completo. El servidor y el proyecto se detectan automáticamente.";
+"Server returned an invalid HTTP response" = "El servidor devolvió una respuesta HTTP no válida";
+
+
+/* ----- Redesign: appearance & statistics ----- */
+"Statistics" = "Estadísticas";
+"stats_range_this_month" = "Este mes";
+"stats_range_3_months" = "3 meses";
+"stats_range_6_months" = "6 meses";
+"stats_range_this_year" = "Este año";
+"stats_range_all_time" = "Todo";
+"stats_total_spent" = "Gasto total";
+"stats_empty_title" = "Todavía no hay nada que analizar";
+"stats_empty_message" = "Añade algunos gastos o elige un periodo más amplio y el desglose aparecerá aquí.";
+"stats_bills" = "Gastos";
+"stats_average_bill" = "Media";
+"stats_per_member" = "Por miembro";
+"stats_top_payer" = "Quien más paga";
+"stats_balances" = "Saldos";
+"stats_balances_subtitle" = "Un saldo positivo significa que le deben dinero al miembro";
+"stats_settle_up" = "Ajustar cuentas";
+"stats_settle_up_subtitle" = "El mínimo de pagos para saldar todas las deudas";
+"stats_all_settled" = "Todo el mundo está en paz.";
+"stats_pays %@" = "paga a %@";
+"stats_monthly" = "Gasto mensual";
+"stats_peak_label %@ %@" = "Máximo: %1$@ en %2$@";
+"stats_who_paid" = "Quién pagó";
+"stats_who_paid_subtitle" = "Total adelantado";
+"stats_categories" = "Categorías";
+"stats_uncategorized" = "Sin categoría";
+"stats_other_categories" = "Otros";
+"stats_largest_bills" = "Gastos más altos";
+"stats_untitled_bill" = "Gasto sin título";
+"bill_share_each %@" = "%@ cada uno";
+"bills_total" = "Total";
+"bills_empty_title" = "Aún no hay gastos";
+"bills_empty_message" = "Pulsa el botón de abajo para añadir tu primer gasto.";
+"balances_outstanding" = "Deuda pendiente";
+"balances_outstanding_hint" = "Importe todavía pendiente en el proyecto";
+"balance_is_owed" = "debe recibir";
+"balance_owes" = "debe";
+"balance_settled" = "en paz";
+"appearance_title" = "Apariencia";
+"appearance_row_subtitle" = "Tema, modo claro y oscuro";
+"appearance_mode" = "Modo";
+"appearance_mode_subtitle" = "Seguir al sistema, o forzar claro u oscuro";
+"appearance_system" = "Sistema";
+"appearance_light" = "Claro";
+"appearance_dark" = "Oscuro";
+"appearance_theme" = "Tema";
+"appearance_theme_subtitle" = "Tres estilos, cada uno con variante clara y oscura";
+"theme_aurora" = "Aurora";
+"theme_aurora_subtitle" = "Índigo profundo, degradados vivos, cristal suave";
+"theme_graphite" = "Grafito";
+"theme_graphite_subtitle" = "Monocromo editorial: solo el dinero lleva color";
+"theme_mint" = "Menta";
+"theme_mint_subtitle" = "Papel cálido, menta y coral, curvas generosas";
+"onboarding_what_is_this" = "¿Qué es esto?";
+"onboarding_hide_info" = "Ocultar detalles";
+"Unknown" = "Desconocido";

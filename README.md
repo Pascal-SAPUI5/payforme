@@ -1,10 +1,10 @@
-# Umlage
+# Divido
 
 Ein iOS-Client für [Nextcloud Cospend](https://github.com/julien-nc/cospend-nc)
 und [iHateMoney](https://ihatemoney.org) — gemeinsame Ausgaben erfassen,
 Salden sehen, Schulden ausgleichen.
 
-Umlage ist ein eigenständiger Fork von
+Divido ist ein eigenständiger Fork von
 [PayForMe](https://github.com/InteractionEngineer/PayForMe) (Apache 2.0) mit
 eigenem Namen, eigenem Erscheinungsbild und einem Statistik-Tab. Fehlerkorrekturen
 fließen als Pull Requests ans Original zurück. Details zur Herkunft: [NOTICE](NOTICE).

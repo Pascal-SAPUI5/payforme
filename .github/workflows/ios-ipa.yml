@@ -1,4 +1,4 @@
-# Baut eine unsignierte IPA von Umlage auf einem macOS-Runner.
+# Baut eine unsignierte IPA von Divido auf einem macOS-Runner.
 #
 # Warum unsigniert: SideStore oder AltStore signieren die App auf dem iPhone
 # selbst mit deiner Apple-ID. Eine hier erzeugte Signatur waere dafuer nur im Weg.
@@ -8,8 +8,8 @@
 # signiert. Dafuer laeuft sie mit freier Apple-ID nur 7 Tage (mit bezahltem
 # Entwicklerkonto ein Jahr) und laesst sich nicht an andere Tester verteilen.
 #
-# Umlage hat ein geteiltes Scheme unter
-# Umlage.xcodeproj/xcshareddata/xcschemes/Umlage.xcscheme, deshalb
+# Divido hat ein geteiltes Scheme unter
+# Divido.xcodeproj/xcshareddata/xcschemes/Divido.xcscheme, deshalb
 # funktioniert -scheme im frischen Checkout ohne Vorarbeit.
 #
 # Kosten: macOS-Runner zaehlen bei privaten Repos 10-fach. Bei 2000 Freiminuten
@@ -39,21 +39,21 @@ jobs:
       - name: SPM-Abhaengigkeiten aufloesen
         run: |
           xcodebuild -resolvePackageDependencies \
-            -project Umlage.xcodeproj \
-            -scheme Umlage \
+            -project Divido.xcodeproj \
+            -scheme Divido \
             -derivedDataPath "$RUNNER_TEMP/DerivedData"
 
       # Die Build-Nummer macht am Geraet unterscheidbar, ob ein Fix wirkungslos
       # war oder schlicht noch nicht installiert ist.
       - name: Build-Nummer setzen
         run: |
-          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${{ github.run_number }}" Umlage/Info.plist
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${{ github.run_number }}" Divido/Info.plist
 
       - name: App bauen
         run: |
           xcodebuild \
-            -project Umlage.xcodeproj \
-            -scheme Umlage \
+            -project Divido.xcodeproj \
+            -scheme Divido \
             -configuration Release \
             -sdk iphoneos \
             -derivedDataPath "$RUNNER_TEMP/DerivedData" \
@@ -66,20 +66,20 @@ jobs:
       # Eine IPA ist nur ein ZIP mit der .app in einem Ordner namens "Payload".
       - name: IPA packen
         run: |
-          APP="$RUNNER_TEMP/DerivedData/Build/Products/Release-iphoneos/Umlage.app"
+          APP="$RUNNER_TEMP/DerivedData/Build/Products/Release-iphoneos/Divido.app"
           if [ ! -d "$APP" ]; then
-            echo "Umlage.app nicht gefunden - Inhalt der Build-Produkte:"
+            echo "Divido.app nicht gefunden - Inhalt der Build-Produkte:"
             ls -R "$RUNNER_TEMP/DerivedData/Build/Products" || true
             exit 1
           fi
           mkdir -p "$RUNNER_TEMP/Payload"
           cp -R "$APP" "$RUNNER_TEMP/Payload/"
           cd "$RUNNER_TEMP"
-          zip -qry Umlage.ipa Payload
-          ls -lh Umlage.ipa
+          zip -qry Divido.ipa Payload
+          ls -lh Divido.ipa
 
       - uses: actions/upload-artifact@v4
         with:
           name: payforme-ipa
-          path: ${{ runner.temp }}/Umlage.ipa
+          path: ${{ runner.temp }}/Divido.ipa
           retention-days: 30

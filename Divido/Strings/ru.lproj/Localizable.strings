@@ -1,0 +1,216 @@
+
+
+"Add Bill" = "Добавить счёт";
+
+
+"Add Project" = "Проект добавить";
+
+/*  */
+"Add a default payer for new bills (e.g. yourself)" = "Добавить плательщика по умолчанию для новых счетов (например, себя)";
+
+
+"Add member" = "Добавить участника";
+
+
+"Add project" = "Добавить проект";
+
+
+"All" = "Все";
+
+
+"Bills" = "Счета";
+
+/*  */
+"Changed date" = "Измененная дата";
+
+/*  */
+"Cospend is a NextCloud app" = "Cospend - это приложение NextCloud";
+
+
+"Could not find server" = "Сервер не найден";
+
+
+"Create Bill" = "Создать счёт";
+
+/*  */
+"Date" = "Дата";
+
+
+"Delete" = "Удалить";
+
+/*  */
+"Delete Bill" = "Удалить счет";
+
+/*  */
+"Do you really want to erase the bill from the server?" = "Вы действительно хотите стереть счет с сервера?";
+
+
+"Edit Bill" = "Редактировать счёт";
+
+
+"Enter project id" = "Введите id проекта";
+
+
+"Enter project password (Optional)" = "Введите пароль проекта (необязательно)";
+
+/*  */
+"Expense date" = "Дата расхода";
+
+
+"Finding Server" = "Ищем сервер";
+
+/*  */
+"Go to settings" = "Перейти к настройкам";
+
+
+"How much" = "Сколько";
+
+/*  */
+"If you want to scan your project as a QR code, you need to allow this app to use your camera. Otherwise please navigate back and fill out the information manually." = "Если вы хотите отсканировать ваш проект в виде QR-кода, вам необходимо разрешить этому приложению использовать вашу камеру. В противном случае, пожалуйста, вернитесь назад и заполните информацию вручную.";
+
+
+"Known Projects" = "Добавленные проекты";
+
+
+"Member name" = "Имя участника";
+
+
+"Members" = "Участники";
+
+
+"None" = "Никто";
+
+
+"Owers" = "За кого";
+
+
+"Paste Link" = "Вставить ссылку";
+
+
+"Payer" = "Кто платил";
+
+/*  */
+"Please allow us to use the camera in order to scan the Cospend QR code" = "Пожалуйста, разрешите нам использовать камеру для сканирования QR-кода Cospend";
+
+
+"Project ID & Password" = "Название проекта и пароль";
+
+/*  */
+"Projects" = "Проекты";
+
+/*  */
+"Scan the Cospend QR code to proceed" = "Сканирование QR-кода Cospend для продолжения работы";
+
+
+/*
+
+  Localizable.strings
+  PayForMe
+
+  Created by Max Tharr on 22.03.20.
+  Copyright © 2020 Mayflower GmbH. All rights reserved.
+  Translated to Russian by Anton Karliner on 23.03.20
+ */
+"Server Address" = "Адрес сервера";
+
+/*  */
+"Server Address (Optional)" = "Адрес сервера (необязательно)";
+
+
+"Submit" = "Подтвердить";
+
+/*  */
+"Sure" = "Конечно";
+
+/*  */
+"To get started sharing expenses with friends, you must add a project from Cospend or iHateMoney. To do this, scan the QR code or click the link for the project that was shared with you." = "Чтобы начать делиться расходами с друзьями, вы должны добавить проект из Cospend или iHateMoney. Для этого отсканируйте QR-код или откройте ссылку на проект, которым с вами поделились.";
+
+/*  */
+"To use iHateMoney, host an own instance or register at" = "Чтобы использовать iHateMoney, создайте собственный экземпляр или зарегистрируйтесь на сайте";
+
+/*  */
+"Type password here" = "Введите пароль здесь";
+
+/*  */
+"URL wrong, please scan right barcode" = "URL неверный, пожалуйста, отсканируйте правильный штрихкод";
+
+
+"Unauthorized: Wrong project id/pw" = "Неавторизован: неправильный ID проекта/пароль";
+
+
+"Update Bill" = "Обновить счёт";
+
+/*  */
+"Welcome to Divido!" = "Добро пожаловать в Divido!";
+
+
+"What was paid" = "За что платил";
+
+/* Feedback round 2.6.0 */
+"Cancel" = "Отмена";
+"Scan QR code" = "Сканировать QR-код";
+"Backend" = "Бэкенд";
+"server_hint_cospend" = "Ваш собственный сервер Cospend (Nextcloud).";
+"server_hint_ihatemoney" = "Оставьте пустым для официального сервера или укажите свой.";
+"Could not add member" = "Не удалось добавить участника";
+"member_error_forbidden" = "Обычно для этого нужны права сопровождающего проекта. Пароль общего доступа может давать только права участника.";
+"member_error_network" = "Нет соединения с сервером. Проверьте сеть и повторите попытку.";
+"member_error_generic" = "Сервер отклонил запрос (HTTP %d).";
+
+
+/* ----- Redesign: appearance & statistics ----- */
+"Statistics" = "Статистика";
+"stats_range_this_month" = "Этот месяц";
+"stats_range_3_months" = "3 месяца";
+"stats_range_6_months" = "6 месяцев";
+"stats_range_this_year" = "Этот год";
+"stats_range_all_time" = "За всё время";
+"stats_total_spent" = "Всего потрачено";
+"stats_empty_title" = "Пока нечего анализировать";
+"stats_empty_message" = "Добавьте несколько расходов или выберите более широкий период — и здесь появится разбивка.";
+"stats_bills" = "Расходы";
+"stats_average_bill" = "Средний";
+"stats_per_member" = "На участника";
+"stats_top_payer" = "Больше всех платит";
+"stats_balances" = "Балансы";
+"stats_balances_subtitle" = "Положительный баланс означает, что участнику должны";
+"stats_settle_up" = "Рассчитаться";
+"stats_settle_up_subtitle" = "Минимум платежей, чтобы закрыть все долги";
+"stats_all_settled" = "Все рассчитались.";
+"stats_pays %@" = "платит %@";
+"stats_monthly" = "Расходы по месяцам";
+"stats_peak_label %@ %@" = "Максимум: %1$@ — %2$@";
+"stats_who_paid" = "Кто платил";
+"stats_who_paid_subtitle" = "Всего оплачено из своего кармана";
+"stats_categories" = "Категории";
+"stats_uncategorized" = "Без категории";
+"stats_other_categories" = "Другое";
+"stats_largest_bills" = "Самые крупные расходы";
+"stats_untitled_bill" = "Расход без названия";
+"bill_share_each %@" = "по %@";
+"bills_total" = "Итого";
+"bills_empty_title" = "Пока нет расходов";
+"bills_empty_message" = "Нажмите кнопку ниже, чтобы добавить первый расход.";
+"balances_outstanding" = "Открытый долг";
+"balances_outstanding_hint" = "Сумма, которую ещё нужно вернуть в проекте";
+"balance_is_owed" = "должны вернуть";
+"balance_owes" = "должен";
+"balance_settled" = "рассчитался";
+"appearance_title" = "Оформление";
+"appearance_row_subtitle" = "Тема, светлый и тёмный режим";
+"appearance_mode" = "Режим";
+"appearance_mode_subtitle" = "Следовать системе или задать светлый либо тёмный";
+"appearance_system" = "Системная";
+"appearance_light" = "Светлая";
+"appearance_dark" = "Тёмная";
+"appearance_theme" = "Тема";
+"appearance_theme_subtitle" = "Три стиля, каждый в светлом и тёмном варианте";
+"theme_aurora" = "Aurora";
+"theme_aurora_subtitle" = "Глубокий индиго, яркие градиенты, мягкое стекло";
+"theme_graphite" = "Графит";
+"theme_graphite_subtitle" = "Издательская монохромность — цвет только у сумм";
+"theme_mint" = "Мята";
+"theme_mint_subtitle" = "Тёплая бумага, мята и коралл, мягкие скругления";
+"onboarding_what_is_this" = "Что это?";
+"onboarding_hide_info" = "Скрыть подробности";
+"Unknown" = "Неизвестно";

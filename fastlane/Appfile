@@ -1,4 +1,4 @@
-app_identifier("de.wachowski.umlage") # The bundle identifier of your app
+app_identifier("de.wachowski.divido") # The bundle identifier of your app
 
 # Account + team are resolved from the App Store Connect API key (see fastlane/.env),
 
