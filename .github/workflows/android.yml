@@ -37,7 +37,7 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@48b5f213c81028ace310571dc5ec0fbbca0b2947 # v4
       - name: Kern testen
         run: gradle --no-daemon :core:test
       - name: Testbericht sichern
@@ -60,8 +60,8 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
-      - uses: android-actions/setup-android@v3
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407 # v3
+      - uses: gradle/actions/setup-gradle@48b5f213c81028ace310571dc5ec0fbbca0b2947 # v4
 
       - name: Keystore ablegen
         env:
@@ -94,9 +94,13 @@ jobs:
       # Nur auf ausdrueckliche Anforderung: der erste Upload einer App muss
       # ohnehin von Hand in der Play Console passieren, und ein versehentlicher
       # Release-Upload laesst sich nicht zurueckziehen.
+      #
+      # Die Action ist auf einen Commit-SHA geheftet, nicht auf ein Tag. Sie
+      # bekommt den Service-Account-Schluessel als Eingabe, und ein Tag laesst
+      # sich jederzeit auf anderen Code umhaengen — ein SHA nicht.
       - name: Zu Google Play hochladen
         if: inputs.upload
-        uses: r0adkll/upload-google-play@v1
+        uses: r0adkll/upload-google-play@e738b9dd8f2476ea806d921b64aacd24f34515a5 # v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
           packageName: de.wachowski.divido
