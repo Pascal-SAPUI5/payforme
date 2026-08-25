@@ -17,6 +17,10 @@ on:
         description: 'Signiertes AAB bauen (braucht die Keystore-Secrets)'
         type: boolean
         default: false
+      upload:
+        description: 'Danach zu Google Play hochladen (internal track)'
+        type: boolean
+        default: false
 
 defaults:
   run:
@@ -86,3 +90,18 @@ jobs:
           name: divido-release-aab
           path: android/app/build/outputs/bundle/release/*.aab
           if-no-files-found: error
+
+      # Nur auf ausdrueckliche Anforderung: der erste Upload einer App muss
+      # ohnehin von Hand in der Play Console passieren, und ein versehentlicher
+      # Release-Upload laesst sich nicht zurueckziehen.
+      - name: Zu Google Play hochladen
+        if: inputs.upload
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: de.wachowski.divido
+          releaseFiles: android/app/build/outputs/bundle/release/app-release.aab
+          # internal ist der schnellste Track: keine Pruefung durch Google,
+          # sofort fuer die hinterlegten Tester verfuegbar.
+          track: internal
+          status: completed
