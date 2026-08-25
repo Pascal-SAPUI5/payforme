@@ -72,3 +72,8 @@ fastlane/.env
 .DS_Store
 # Playwright MCP artefacts (screenshots, snapshots, console logs)
 .playwright-mcp/
+
+# Android / Gradle
+android/.gradle/
+android/**/build/
+android/local.properties

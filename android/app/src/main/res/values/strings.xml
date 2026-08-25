@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Divido</string>
+    <string name="bills">Rechnungen</string>
+    <string name="no_project">Noch kein Projekt hinzugefügt</string>
+</resources>
