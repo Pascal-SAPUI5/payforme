@@ -1,6 +1,6 @@
 //
 //  BillCell.swift
-//  PayForMe
+//  Umlage
 //
 //  Created by Max Tharr on 22.01.20.
 //

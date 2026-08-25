@@ -1,6 +1,6 @@
 //
 //  ProjectCategory.swift
-//  PayForMe
+//  Umlage
 //
 //  Cospend lets a project define its own expense categories (name + emoji +
 //  colour). We read them straight off the server instead of shipping a

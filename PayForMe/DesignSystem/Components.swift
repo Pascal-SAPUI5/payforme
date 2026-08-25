@@ -1,6 +1,6 @@
 //
 //  Components.swift
-//  PayForMe
+//  Umlage
 //
 //  The shared building blocks every redesigned screen is assembled from.
 //  All of them read their colours from `@Environment(\.pfmTheme)`, so a theme

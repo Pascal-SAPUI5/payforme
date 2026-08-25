@@ -1,6 +1,6 @@
 //
 //  Theme.swift
-//  PayForMe
+//  Umlage
 //
 //  The single source of truth for colour, elevation and shape.
 //

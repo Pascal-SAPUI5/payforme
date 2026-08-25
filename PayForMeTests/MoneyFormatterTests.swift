@@ -1,6 +1,6 @@
 //
 //  MoneyFormatterTests.swift
-//  PayForMeTests
+//  UmlageTests
 //
 //  These assert *structure* (sign, suffix, presence of the currency) rather than
 //  exact separators, because grouping and decimal characters legitimately differ

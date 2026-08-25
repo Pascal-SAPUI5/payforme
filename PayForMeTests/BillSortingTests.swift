@@ -1,6 +1,6 @@
 //
 //  BillSortingTests.swift
-//  PayForMeTests
+//  UmlageTests
 //
 //  Tests for BillListViewModel.SortedBy — the two sort modes available in the
 //  Bills tab.

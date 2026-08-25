@@ -1,6 +1,6 @@
 //
 //  JSONDecodingTests.swift
-//  PayForMeTests
+//  UmlageTests
 //
 //  Tests that the JSON responses returned by Cospend and iHateMoney are decoded
 //  correctly into our model types.

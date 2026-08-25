@@ -1,6 +1,6 @@
 //
 //  PayForMeUITests.swift
-//  PayForMeUITests
+//  UmlageUITests
 //
 //  Created by Max Tharr on 13.03.20.
 //

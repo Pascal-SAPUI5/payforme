@@ -1,6 +1,6 @@
 //
 //  StatisticsTests.swift
-//  PayForMeTests
+//  UmlageTests
 //
 //  Tests for `StatisticsEngine`, which backs the Statistics tab AND — since the
 //  two must never disagree — the balances on the Members tab.

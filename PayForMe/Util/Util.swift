@@ -1,6 +1,6 @@
 //
 //  Util.swift
-//  PayForMe
+//  Umlage
 //
 //  Created by Camille Mainz on 28.01.20.
 //

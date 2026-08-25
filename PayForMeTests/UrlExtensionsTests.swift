@@ -1,6 +1,6 @@
 //
 //  UrlExtensionsTests.swift
-//  PayForMeTests
+//  UmlageTests
 //
 //  Tests for the URL extensions that decode deep-link and QR-code URLs into
 //  (server, project, password) triples.

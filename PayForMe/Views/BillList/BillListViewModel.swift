@@ -1,6 +1,6 @@
 //
 //  BillListViewModel.swift
-//  PayForMe
+//  Umlage
 //
 //  Created by Max Tharr on 23.01.20.
 //

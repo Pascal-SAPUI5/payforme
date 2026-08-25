@@ -1,6 +1,6 @@
 //
 //  NetworkRequestTests.swift
-//  PayForMeTests
+//  UmlageTests
 //
 //  Tests that NetworkService builds the correct HTTP requests for each backend.
 //

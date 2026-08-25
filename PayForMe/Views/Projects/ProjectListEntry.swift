@@ -1,6 +1,6 @@
 //
 //  ProjectListEntry.swift
-//  PayForMe
+//  Umlage
 //
 //  Created by Max Tharr on 08.02.23.
 //  Copyright © 2023 Mayflower GmbH. All rights reserved.

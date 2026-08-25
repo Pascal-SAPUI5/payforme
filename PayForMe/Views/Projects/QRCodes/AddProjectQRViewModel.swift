@@ -1,6 +1,6 @@
 //
 //  AddProjectQRViewModel.swift
-//  PayForMe
+//  Umlage
 //
 //  Created by Max Tharr on 02.10.20.
 //

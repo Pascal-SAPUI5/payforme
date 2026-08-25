@@ -1,6 +1,6 @@
 //
 //  Statistics.swift
-//  PayForMe
+//  Umlage
 //
 //  Cospend-style project analytics.
 //

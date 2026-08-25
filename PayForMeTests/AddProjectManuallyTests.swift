@@ -1,6 +1,6 @@
 //
 //  AddProjectManuallyTests.swift
-//  PayForMeTests
+//  UmlageTests
 //
 //  Tests for AddProjectManualViewModel — the view model that drives the manual
 //  project-add flow (the "Enter server URL" screen).

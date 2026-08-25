@@ -1,6 +1,6 @@
 //
 //  Charts.swift
-//  PayForMe
+//  Umlage
 //
 //  The monthly trend uses Swift Charts. The other three are deliberately not
 //  charts in the Swift Charts sense — see the note on each — and stay built from

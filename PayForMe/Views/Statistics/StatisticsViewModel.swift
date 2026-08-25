@@ -1,6 +1,6 @@
 //
 //  StatisticsViewModel.swift
-//  PayForMe
+//  Umlage
 //
 //  Adapts the pure `StatisticsEngine` output into exactly what the Statistics
 //  screen draws. Presentation decisions (how many categories before folding into

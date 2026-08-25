@@ -1,6 +1,6 @@
 //
 //  CommunicationIndicator.swift
-//  PayForMe
+//  Umlage
 //
 //  Created by Max Tharr on 25.02.20.
 //

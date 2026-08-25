@@ -1,6 +1,6 @@
 //
 //  StorageMigrationTests.swift
-//  PayForMeTests
+//  UmlageTests
 //
 
 import GRDB

@@ -1,6 +1,6 @@
 //
 //  PayForMeTests.swift
-//  PayForMeTests
+//  UmlageTests
 //
 //  Created by Max Tharr on 03.10.20.
 //

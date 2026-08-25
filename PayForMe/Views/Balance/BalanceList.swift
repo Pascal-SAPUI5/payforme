@@ -1,6 +1,6 @@
 //
 //  BalanceList.swift
-//  PayForMe
+//  Umlage
 //
 //  Created by Max Tharr on 29.01.20.
 //

@@ -1,6 +1,6 @@
 //
 //  MoneyFormatter.swift
-//  PayForMe
+//  Umlage
 //
 //  Amounts used to be rendered with `String(format: "%.2f", …)`, which prints
 //  "1234.50" to every user on earth regardless of locale. This formats with the

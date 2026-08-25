@@ -1,6 +1,6 @@
 //
 //  AddServerModel.swift
-//  PayForMe
+//  Umlage
 //
 //  Created by Camille Mainz on 05.02.20.
 //

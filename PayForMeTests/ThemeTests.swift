@@ -1,6 +1,6 @@
 //
 //  ThemeTests.swift
-//  PayForMeTests
+//  UmlageTests
 //
 //  The design system is data, so it can be tested like data. These lock down the
 //  invariants a palette has to satisfy — a wrong hex here would ship an

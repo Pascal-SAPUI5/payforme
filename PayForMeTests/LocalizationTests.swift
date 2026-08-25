@@ -1,6 +1,6 @@
 //
 //  LocalizationTests.swift
-//  PayForMeTests
+//  UmlageTests
 //
 //  A missing key does not crash — `NSLocalizedString` quietly returns the key
 //  itself, so the screen ships reading "stats_settle_up_subtitle". That is

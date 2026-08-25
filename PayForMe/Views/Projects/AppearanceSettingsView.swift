@@ -1,6 +1,6 @@
 //
 //  AppearanceSettingsView.swift
-//  PayForMe
+//  Umlage
 //
 //  Lets people pick one of the three visual directions and force light or dark.
 //  Each theme is shown as a live miniature built from that theme's own palette,

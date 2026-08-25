@@ -1,6 +1,6 @@
 //
 //  OnboardingView.swift
-//  PayForMe
+//  Umlage
 //
 //  Created by Max Tharr on 21.01.20.
 //
@@ -146,19 +146,15 @@ struct AddProjectManualView: View {
     }
 
     private func detectClipboard() {
-        // iOS 16+ gates the read behind a pattern check, so contents are only inspected (and the
-        // paste notification only shown) when a URL is present. That API is unavailable on iOS 15.
-        if #available(iOS 16.0, *) {
-            UIPasteboard.general.detectPatterns(for: [\.probableWebURL]) { result in
-                guard (try? result.get())?.contains(\.probableWebURL) == true else {
-                    DispatchQueue.main.async { clipboardHasURL = false }
-                    return
-                }
-                let content = UIPasteboard.general.string ?? ""
-                DispatchQueue.main.async { clipboardHasURL = viewmodel.canPaste(content) }
+        // The pattern check keeps the clipboard unread — and the paste notification
+        // unshown — unless a URL is actually in it.
+        UIPasteboard.general.detectPatterns(for: [\.probableWebURL]) { result in
+            guard (try? result.get())?.contains(\.probableWebURL) == true else {
+                DispatchQueue.main.async { clipboardHasURL = false }
+                return
             }
-        } else {
-            clipboardHasURL = viewmodel.canPaste(UIPasteboard.general.string ?? "")
+            let content = UIPasteboard.general.string ?? ""
+            DispatchQueue.main.async { clipboardHasURL = viewmodel.canPaste(content) }
         }
     }
 

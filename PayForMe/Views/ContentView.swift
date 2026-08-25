@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  PayForMe
+//  Umlage
 //
 //  Created by Max Tharr on 21.01.20.
 //

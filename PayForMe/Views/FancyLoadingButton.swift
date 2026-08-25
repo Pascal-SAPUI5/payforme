@@ -1,6 +1,6 @@
 //
 //  FancyBotton.swift
-//  PayForMe
+//  Umlage
 //
 //  Created by Camille Mainz on 24.02.20.
 //

@@ -1,6 +1,6 @@
 //
 //  BalanceCalculationTests.swift
-//  PayForMeTests
+//  UmlageTests
 //
 //  Tests for the balance calculation in BalanceViewModel.setBalances().
 //

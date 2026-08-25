@@ -1,6 +1,6 @@
 //
 //  ShareProjectQRCodeViewModel.swift
-//  PayForMe
+//  Umlage
 //
 //  Created by Maximilian Fischer on 30.04.26.
 //

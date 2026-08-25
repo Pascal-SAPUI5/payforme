@@ -1,6 +1,6 @@
 //
 //  AddMemberView.swift
-//  PayForMe
+//  Umlage
 //
 //  Created by Camille Mainz on 04.03.20.
 //

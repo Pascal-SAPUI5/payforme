@@ -1,6 +1,6 @@
 //
 //  StatisticsView.swift
-//  PayForMe
+//  Umlage
 //
 //  The Statistics tab — PayForMe's answer to Cospend's statistics page:
 //  totals, per-member paid/spent/balance, a monthly trend, a category

@@ -1,6 +1,6 @@
 //
 //  TestHelpers.swift
-//  PayForMeTests
+//  UmlageTests
 //
 //  Shared test infrastructure: a mock URL protocol for intercepting network
 //  requests without hitting real servers, plus reusable test fixtures.

@@ -1,6 +1,6 @@
 //
 //  ShareProjectQRCode.swift
-//  PayForMe
+//  Umlage
 //
 //  Created by Max Tharr on 03.10.20.
 //

@@ -1,6 +1,6 @@
 //
 //  BillTests.swift
-//  PayForMeTests
+//  UmlageTests
 //
 //  Tests for Bill.paramsFor(_:) — the single function that translates a Bill
 //  into the HTTP request parameters sent to the backend.

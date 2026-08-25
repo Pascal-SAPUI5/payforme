@@ -1,6 +1,6 @@
 //
 //  AddBillView.swift
-//  PayForMe
+//  Umlage
 //
 //  Created by Camille Mainz on 13.02.20.
 //

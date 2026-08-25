@@ -1,6 +1,6 @@
 //
 //  Views+Extensions.swift
-//  PayForMe
+//  Umlage
 //
 //  Created by Max Tharr on 03.10.20.
 //
@@ -16,40 +16,27 @@ extension View {
         modifier(PFMLegacyFancyStyle(active: active))
     }
 
-    /// On iOS 26 the system glass style picks up the `.tint` the themed
-    /// container sets, so it is already theme-aware. Below that we style the
-    /// button ourselves.
-    @ViewBuilder
+    /// The system glass style picks up the `.tint` the themed container sets,
+    /// so it is already theme-aware.
+    ///
+    /// `active` used to be dropped on iOS 26 — the availability branch that
+    /// applied it only existed below that — so every caller passing
+    /// `active: false` got a button that still responded to taps. Applying it
+    /// here restores what the call sites always meant.
     func prominentActionStyle(active: Bool = true) -> some View {
-        if #available(iOS 26, *) {
-            self.buttonStyle(.glassProminent)
-        } else {
-            self.buttonStyle(PFMPrimaryButtonStyle()).disabled(!active)
-        }
+        buttonStyle(.glassProminent).disabled(!active)
     }
 
-    @ViewBuilder
     func glassTabBarMinimize() -> some View {
-        if #available(iOS 26, *) {
-            self.tabBarMinimizeBehavior(.onScrollDown)
-        } else {
-            self
-        }
+        tabBarMinimizeBehavior(.onScrollDown)
     }
 
     func eraseToAnyView() -> AnyView {
         AnyView(self)
     }
 
-    @ViewBuilder
     func glassCircleStyle() -> some View {
-        if #available(iOS 26, *) {
-            self
-                .buttonStyle(.glassProminent)
-                .buttonBorderShape(.circle)
-        } else {
-            modifier(PFMLegacyCircleStyle())
-        }
+        buttonStyle(.glassProminent).buttonBorderShape(.circle)
     }
 
     func glassActionButton(systemImage: String,
@@ -104,22 +91,7 @@ struct GlassActionButton: View {
     }
 }
 
-// MARK: - Themed fallbacks for pre-iOS 26
-
-/// Pre-glass styling for the floating action button, in the active theme's
-/// colours rather than the asset catalogue's fixed accent.
-private struct PFMLegacyCircleStyle: ViewModifier {
-    @Environment(\.pfmTheme) private var theme
-
-    func body(content: Content) -> some View {
-        content
-            .background(theme.palette.accent)
-            .foregroundColor(theme.palette.onAccent)
-            .clipShape(Circle())
-            .shadow(color: theme.metrics.prefersFlatSurfaces ? theme.palette.shadow : theme.palette.accent.opacity(0.4),
-                    radius: 12, x: 0, y: 6)
-    }
-}
+// MARK: - Themed styling
 
 private struct PFMLegacyFancyStyle: ViewModifier {
     @Environment(\.pfmTheme) private var theme

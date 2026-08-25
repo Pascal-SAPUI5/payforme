@@ -1,6 +1,6 @@
 //
 //  StatisticsViewModelTests.swift
-//  PayForMeTests
+//  UmlageTests
 //
 //  Covers the presentation decisions the view model makes on top of the engine:
 //  which members get a bar, how the category tail is folded, how rows are ranked.
