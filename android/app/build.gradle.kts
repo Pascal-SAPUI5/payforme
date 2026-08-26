@@ -7,6 +7,9 @@ plugins {
 android {
     namespace = "de.wachowski.divido"
     compileSdk = 35
+    // Explizit, weil das Gradle-Plugin sonst seine Standardversion nachinstallieren
+    // will. Auf einem Nix-System ist das SDK schreibgeschuetzt und der Build bricht ab.
+    buildToolsVersion = "35.0.0"
 
     defaultConfig {
         // Must match the package name reserved in the Play Console. It cannot
@@ -14,8 +17,8 @@ android {
         applicationId = "de.wachowski.divido"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.0.1"
     }
 
     // The upload key signs the bundle before it goes to Google. Play App

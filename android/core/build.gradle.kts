@@ -19,5 +19,8 @@ dependencies {
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
 }
 
-kotlin { jvmToolchain(21) }
+// Java 17, nicht 21. Das app-Modul bindet dieses hier ein, und Androids D8
+// erwartet Bytecode auf Java-17-Niveau. Zwei verschiedene Toolchains im selben
+// Abhaengigkeitsbaum bauen zwar durch, koennen zur Laufzeit aber brechen.
+kotlin { jvmToolchain(17) }
 tasks.test { useJUnitPlatform() }
