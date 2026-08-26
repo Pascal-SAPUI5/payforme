@@ -49,10 +49,21 @@ enum ReceiptRecognizer {
     static let maximumLines = 120
 
     /// Der ganze Weg vom Foto zur Bonstruktur.
+    ///
+    /// Der Endbetrag bekommt eine zweite Quelle. Ein Sprachmodell laesst sich
+    /// nicht pruefen, und der Endbetrag ist der wichtigste Wert der ganzen
+    /// Rechnung — er darf nicht allein daran haengen. ReceiptTotals sucht ihn
+    /// deterministisch im erkannten Text, und die Summe der Positionen
+    /// entscheidet, wer recht hat.
     static func recognize(_ image: UIImage, now: Date = Date()) async throws -> ScannedReceipt {
-        let text = try recognizeText(in: image)
-        guard !text.isEmpty else { throw ReceiptRecognizerError.noTextFound }
-        return try await interpret(text, now: now)
+        let lines = try recognizeLines(in: image)
+        guard !lines.isEmpty else { throw ReceiptRecognizerError.noTextFound }
+
+        var receipt = try await interpret(lines.joined(separator: "\n"), now: now)
+        receipt.total = ReceiptTotals.preferred(model: receipt.total,
+                                                fromText: ReceiptTotals.total(in: lines),
+                                                sumOfItems: receipt.sumOfItems)
+        return receipt
     }
 
     // MARK: - Schritt 1: Text aus dem Bild
@@ -62,7 +73,7 @@ enum ReceiptRecognizer {
     /// Die Sprachkorrektur ist abgeschaltet. Sie ist fuer Fliesstext gedacht und
     /// verschlimmbessert auf einem Bon genau das, worauf es ankommt: Artikel-
     /// kuerzel und Betraege.
-    static func recognizeText(in image: UIImage) throws -> String {
+    static func recognizeLines(in image: UIImage) throws -> [String] {
         guard let cgImage = image.cgImage else {
             throw ReceiptRecognizerError.noImageData
         }
@@ -90,8 +101,7 @@ enum ReceiptRecognizer {
                                 height: Double(box.height))
         }
 
-        let lines = TextLineGrouper.lines(from: fragments).prefix(maximumLines)
-        return lines.joined(separator: "\n")
+        return Array(TextLineGrouper.lines(from: fragments).prefix(maximumLines))
     }
 
     // MARK: - Schritt 2: Text zur Bonstruktur

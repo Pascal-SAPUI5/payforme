@@ -78,6 +78,22 @@ final class ScanReceiptViewModel: ObservableObject {
         receipt?.items.removeAll { $0.id == item.id }
     }
 
+    // MARK: - Endbetrag
+
+    /// Der Endbetrag, wie ihn die Erkennung gelesen hat.
+    var total: Double? { receipt?.total }
+
+    /// Uebernimmt einen von Hand eingetippten Endbetrag.
+    ///
+    /// Ohne diesen Weg haengt der Nutzer fest, sobald die Erkennung den Betrag
+    /// verfehlt — und dass sie das gelegentlich tut, ist keine Frage, sondern
+    /// eine Gewissheit. Eine leere Eingabe loescht den Betrag, dann gilt die
+    /// Summe der Positionen.
+    func updateTotal(from text: String) {
+        let trimmed = text.trimmingCharacters(in: .whitespaces)
+        receipt?.total = trimmed.isEmpty ? nil : ReceiptTotals.amount(from: trimmed)
+    }
+
     /// Ob eine Position allen gehoert. Eine leere Zuordnung heisst geteilt.
     func isShared(_ item: ScannedItem) -> Bool {
         item.assignedTo.isDisjoint(with: Set(participants.map(\.id)))

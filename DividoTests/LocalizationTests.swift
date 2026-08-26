@@ -43,6 +43,7 @@ final class LocalizationTests: XCTestCase {
             "scan_failed_title", "scan_failed_message", "scan_retry",
             "scan_items", "scan_assign_hint", "scan_shared", "scan_remove_item",
             "scan_unaccounted %@", "scan_bills_preview %lld", "scan_create_bills",
+            "scan_total",
         ]
         keys += PFMAppearance.allCases.map { $0.localizationKey }
         keys += PFMThemeID.allCases.map { $0.localizationKey }

@@ -234,3 +234,4 @@
 "scan_unaccounted %@" = "%@ du ticket ne correspondent à aucun article";
 "scan_bills_preview %lld" = "Dépenses à créer : %lld";
 "scan_create_bills" = "Créer les dépenses";
+"scan_total" = "Total";

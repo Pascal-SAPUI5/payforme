@@ -21,9 +21,14 @@ enum ReceiptParser {
     /// nicht hinreichend — Modelle stellen gern einen Satz voran. Deshalb sucht
     /// `extract` das JSON heraus, statt die ganze Antwort zu parsen.
     static let prompt = """
-    Der folgende Text stammt von einem fotografierten Kassenbon. Lies den \
+    Der folgende Text stammt von einer fotografierten Rechnung. Lies den \
     Händler, das Kaufdatum, alle gekauften Artikel mit Einzelpreis und den \
-    Gesamtbetrag. Ignoriere Pfand-, Rabatt-, Zwischensummen- und Steuerzeilen. \
+    Endbetrag. \
+    Der Endbetrag ist die Zeile mit SUMME, GESAMT, GESAMTBETRAG, ENDBETRAG \
+    oder ZU ZAHLEN. Sie gehört in das Feld "total" und niemals in die \
+    Artikelliste. Gib "total" immer an, wenn eine solche Zeile vorkommt. \
+    Nimm Zwischensummen, Steuerzeilen, Pfand-, Rabatt- und Zahlungszeilen \
+    nicht als Artikel auf. \
     Antworte ausschließlich als JSON: \
     {"retailer":"...","date":"JJJJ-MM-TT","total":0.00,\
     "items":[{"name":"...","quantity":1,"price":0.00}]}. \

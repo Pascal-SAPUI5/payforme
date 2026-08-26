@@ -227,3 +227,4 @@
 "scan_unaccounted %@" = "%@ na účtence nevysvětluje žádná položka";
 "scan_bills_preview %lld" = "Vznikne výdajů: %lld";
 "scan_create_bills" = "Vytvořit výdaje";
+"scan_total" = "Celkem";

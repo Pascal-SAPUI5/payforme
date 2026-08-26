@@ -55,17 +55,14 @@ struct BillList: View {
                                accessibilityIdentifier: "Add Bill") {
                 showAddBill = true
             }
-            .overlay(alignment: .bottomTrailing) {
-                Button(action: { showScan = true }) {
-                    Image(systemName: "doc.text.viewfinder")
-                        .font(.title3.weight(.semibold))
-                        .frame(width: 48, height: 48)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: { showScan = true }) {
+                        Image(systemName: "doc.text.viewfinder")
+                    }
+                    .accessibilityLabel(Text("scan_title"))
+                    .accessibilityIdentifier("Scan Receipt")
                 }
-                .glassCircleStyle()
-                .accessibilityLabel(Text("scan_title"))
-                .accessibilityIdentifier("Scan Receipt")
-                .padding(.trailing, 24)
-                .padding(.bottom, 88)
             }
             .sheet(isPresented: $showAddBill) {
                 PFMThemedContainer {

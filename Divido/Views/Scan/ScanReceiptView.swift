@@ -20,6 +20,8 @@ struct ScanReceiptView: View {
     @StateObject private var model: ScanReceiptViewModel
     @State private var showsCamera = false
     @State private var pickedPhoto: PhotosPickerItem?
+    @State private var totalText = ""
+    @FocusState private var totalFocused: Bool
 
     private let currency: String?
     private let onCreate: ([BillDraft], Date) -> Void
@@ -149,6 +151,14 @@ struct ScanReceiptView: View {
             }
             footer
         }
+        .onAppear {
+            // Vorbelegen statt binden: Wer tippt, soll nicht gegen die
+            // Formatierung kaempfen, und ein leeres Feld heisst "kein
+            // Endbetrag", nicht "null".
+            if totalText.isEmpty, let total = model.total {
+                totalText = MoneyFormatter.plain(total)
+            }
+        }
     }
 
     private var header: some View {
@@ -165,10 +175,28 @@ struct ScanReceiptView: View {
                 }
             }
 
-            Text(MoneyFormatter.string(model.receipt?.effectiveTotal ?? 0, currency: currency))
-                .font(.system(size: 34, weight: .bold, design: .rounded))
-                .foregroundColor(theme.palette.textPrimary)
-                .pfmTabularNumbers()
+            VStack(alignment: .leading, spacing: 2) {
+                Text("scan_total")
+                    .font(.caption)
+                    .foregroundColor(theme.palette.textSecondary)
+                HStack(spacing: 6) {
+                    TextField(MoneyFormatter.plain(model.receipt?.effectiveTotal ?? 0),
+                              text: $totalText)
+                        .keyboardType(.decimalPad)
+                        .focused($totalFocused)
+                        .font(.system(size: 34, weight: .bold, design: .rounded))
+                        .foregroundColor(theme.palette.textPrimary)
+                        .pfmTabularNumbers()
+                        .onChange(of: totalText) { text in
+                            model.updateTotal(from: text)
+                        }
+                    if let currency = currency, !currency.isEmpty {
+                        Text(currency)
+                            .font(.title3.weight(.semibold))
+                            .foregroundColor(theme.palette.textSecondary)
+                    }
+                }
+            }
 
             if abs(model.unaccounted) > 0.005 {
                 // Der Bon weist mehr aus, als die Positionen erklaeren. Fast

@@ -234,3 +234,4 @@
 "scan_unaccounted %@" = "%@ on the receipt is not covered by any item";
 "scan_bills_preview %lld" = "Expenses to create: %lld";
 "scan_create_bills" = "Create expenses";
+"scan_total" = "Total";

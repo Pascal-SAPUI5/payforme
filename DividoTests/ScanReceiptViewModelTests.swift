@@ -165,6 +165,38 @@ final class ScanReceiptViewModelTests: XCTestCase {
         XCTAssertEqual(sut.unaccounted, 0, accuracy: 0.001)
     }
 
+    // MARK: - Endbetrag von Hand
+
+    func testTypedTotalReplacesTheRecognizedOne() async throws {
+        let sut = model(returning: receipt([ScannedItem(name: "Milch", quantity: 1, price: 4.00)],
+                                           total: 4.00))
+        await sut.scan(anyImage)
+
+        sut.updateTotal(from: "31,90")
+
+        XCTAssertEqual(try XCTUnwrap(sut.total), 31.90, accuracy: 0.001)
+    }
+
+    func testTypedTotalAcceptsBothDecimalSeparators() async throws {
+        let sut = model(returning: receipt([ScannedItem(name: "Milch", quantity: 1, price: 4.00)]))
+        await sut.scan(anyImage)
+
+        sut.updateTotal(from: "12.50")
+
+        XCTAssertEqual(try XCTUnwrap(sut.total), 12.50, accuracy: 0.001)
+    }
+
+    func testClearingTheFieldFallsBackToTheItemSum() async throws {
+        let sut = model(returning: receipt([ScannedItem(name: "Milch", quantity: 1, price: 4.00)],
+                                           total: 9.99))
+        await sut.scan(anyImage)
+
+        sut.updateTotal(from: "  ")
+
+        XCTAssertNil(sut.total)
+        XCTAssertEqual(try XCTUnwrap(sut.receipt).effectiveTotal, 4.00, accuracy: 0.001)
+    }
+
     func testMissingLineIsCarriedThrough() async {
         let sut = model(returning: receipt([ScannedItem(name: "Milch", quantity: 1, price: 4.00)],
                                            total: 6.00))
