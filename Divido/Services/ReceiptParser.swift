@@ -46,20 +46,29 @@ enum ReceiptParser {
         return (number * 100).rounded() / 100
     }
 
-    /// Akzeptiert 2026-08-16, 16.08.2026 und 16.08.26.
+    /// Akzeptiert 2026-08-16, 16.08.2026, 16.08.26 und 16/08/2026.
+    ///
+    /// Die Formate der Reihe nach durchzuprobieren reicht nicht. Ein
+    /// DateFormatter mit "yyyy-MM-dd" nimmt auch "16.08.26" an und liest daraus
+    /// das Jahr 16, weil er ueber die Trennzeichen hinwegsieht. Deshalb
+    /// entscheidet erst die Form der Zeichenkette, welches Format ueberhaupt
+    /// angewandt wird.
     static func date(from value: Any?, fallback: Date = Date()) -> Date {
         let raw = String(describing: value ?? "").trimmingCharacters(in: .whitespaces)
 
-        let iso = DateFormatter()
-        iso.dateFormat = "yyyy-MM-dd"
-        iso.locale = Locale(identifier: "en_US_POSIX")
-        if let parsed = iso.date(from: String(raw.prefix(10))) { return parsed }
+        let candidates: [(shape: String, format: String)] = [
+            (#"(^\d{4}-\d{2}-\d{2})"#, "yyyy-MM-dd"),
+            (#"(^\d{1,2}\.\d{1,2}\.\d{4})"#, "dd.MM.yyyy"),
+            (#"(^\d{1,2}\.\d{1,2}\.\d{2})(?!\d)"#, "dd.MM.yy"),
+            (#"(^\d{1,2}/\d{1,2}/\d{4})"#, "dd/MM/yyyy")
+        ]
 
-        for format in ["dd.MM.yyyy", "dd.MM.yy", "dd/MM/yyyy"] {
-            let german = DateFormatter()
-            german.dateFormat = format
-            german.locale = Locale(identifier: "en_US_POSIX")
-            if let parsed = german.date(from: String(raw.prefix(format.count))) { return parsed }
+        for (shape, format) in candidates {
+            guard let matched = firstMatch(in: raw, pattern: shape) else { continue }
+            let formatter = DateFormatter()
+            formatter.dateFormat = format
+            formatter.locale = Locale(identifier: "en_US_POSIX")
+            if let parsed = formatter.date(from: matched) { return parsed }
         }
         return fallback
     }
@@ -103,7 +112,10 @@ enum ReceiptParser {
     private static func salvage(_ text: String, now: Date) -> ScannedReceipt? {
         let retailer = firstMatch(in: text, pattern: #""retailer"\s*:\s*"([^"]*)""#)
         let dateString = firstMatch(in: text, pattern: #""date"\s*:\s*"([^"]*)""#)
-        let totalString = firstMatch(in: text, pattern: #""total"\s*:\s*"?([\d.,]+)"?"#)
+        // Nicht [\d.,]+ nehmen: Die Klasse enthaelt das Komma und verschluckt
+        // damit auch das Trennzeichen hinter dem Betrag. Aus 31.90, wird beim
+        // Umwandeln 31.90. und das ist keine Zahl mehr.
+        let totalString = firstMatch(in: text, pattern: #""total"\s*:\s*"?(-?\d+(?:[.,]\d+)?)"?"#)
 
         var items: [ScannedItem] = []
         for object in completeObjects(in: text) {

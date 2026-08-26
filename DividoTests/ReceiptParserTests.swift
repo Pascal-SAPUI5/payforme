@@ -50,6 +50,19 @@ final class ReceiptParserTests: XCTestCase {
         XCTAssertEqual(day(ReceiptParser.date(from: "2026-08-16")), "2026-08-16")
         XCTAssertEqual(day(ReceiptParser.date(from: "16.08.2026")), "2026-08-16")
         XCTAssertEqual(day(ReceiptParser.date(from: "16.08.26")), "2026-08-16")
+        XCTAssertEqual(day(ReceiptParser.date(from: "16/08/2026")), "2026-08-16")
+    }
+
+    func testTimeAfterTheDateIsIgnored() {
+        // Manche Modelle haengen die Uhrzeit an, obwohl der Prompt nur nach dem
+        // Tag fragt. Der Tag davor bleibt lesbar.
+        XCTAssertEqual(day(ReceiptParser.date(from: "2026-08-16T10:22:00")), "2026-08-16")
+    }
+
+    func testTwoDigitYearIsNotMistakenForAFullYear() {
+        // Der Fehler, den dieser Test festhaelt: Ein DateFormatter mit
+        // "yyyy-MM-dd" nimmt auch "16.08.26" an und macht daraus das Jahr 16.
+        XCTAssertNotEqual(day(ReceiptParser.date(from: "16.08.26")), "0016-08-26")
     }
 
     func testDateFallsBackWhenUnreadable() {
