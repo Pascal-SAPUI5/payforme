@@ -18,6 +18,7 @@
 
 import Foundation
 import FoundationModels
+import ImageIO
 import UIKit
 import Vision
 

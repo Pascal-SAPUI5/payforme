@@ -142,4 +142,48 @@ final class ReceiptParserTests: XCTestCase {
         XCTAssertEqual(receipt.effectiveTotal, 8.99)
         XCTAssertFalse(receipt.matchesTotal, "ohne Gesamtbetrag gibt es nichts zu bestätigen")
     }
+
+    // MARK: - Menge
+
+    // Diese vier Faelle decken den Zweig ab, in dem die Menge keine ganze Zahl
+    // ist. Genau dort steckte ein Fehler, den kein Test bemerkt hat, weil alle
+    // Beispiele die Menge als Zahl geliefert haben.
+
+    func testQuantityGivenAsStringIsRead() {
+        let json = #"{"retailer":"REWE","date":"2026-08-16","total":2.58,"items":[{"name":"Milch","quantity":"2","price":1.29}]}"#
+
+        let receipt = ReceiptParser.parse(json, now: referenceDate)
+
+        XCTAssertEqual(receipt?.items.first?.quantity, 2)
+    }
+
+    func testMissingQuantityCountsAsOne() {
+        let json = #"{"retailer":"REWE","date":"2026-08-16","total":1.29,"items":[{"name":"Milch","price":1.29}]}"#
+
+        let receipt = ReceiptParser.parse(json, now: referenceDate)
+
+        XCTAssertEqual(receipt?.items.first?.quantity, 1)
+    }
+
+    func testZeroQuantityCountsAsOne() {
+        // Eine Position mit Menge null gibt es auf einem Bon nicht. Wer sie
+        // durchlaesst, bekommt eine Rechnung, in der der Artikel nichts kostet.
+        let json = #"{"retailer":"REWE","date":"2026-08-16","total":1.29,"items":[{"name":"Milch","quantity":0,"price":1.29}]}"#
+
+        let receipt = ReceiptParser.parse(json, now: referenceDate)
+
+        XCTAssertEqual(receipt?.items.first?.quantity, 1)
+    }
+
+    func testWeighedGoodsCountAsOnePosition() {
+        // Obst wird nach Gewicht abgerechnet, das Modell schreibt dann 0.384.
+        // Der Preis auf dem Bon gilt bereits fuer diese Menge, die Position
+        // darf also nicht mit null multipliziert werden.
+        let json = #"{"retailer":"REWE","date":"2026-08-16","total":0.92,"items":[{"name":"Bananen","quantity":0.384,"price":0.92}]}"#
+
+        let receipt = ReceiptParser.parse(json, now: referenceDate)
+
+        XCTAssertEqual(receipt?.items.first?.quantity, 1)
+        XCTAssertEqual(receipt?.sumOfItems ?? 0, 0.92, accuracy: 0.001)
+    }
 }

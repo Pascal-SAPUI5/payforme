@@ -124,9 +124,11 @@ enum ReceiptParser {
 
     private static func item(from object: [String: Any]) -> ScannedItem? {
         guard let name = (object["name"] as? String)?.trimmed, !name.isEmpty,
-              let price = price(from: object["price"]) else { return nil }
+              let unitPrice = price(from: object["price"]) else { return nil }
+        // Nicht `price` nennen: Eine lokale Bindung mit dem Namen einer
+        // statischen Funktion verdeckt diese im restlichen Rumpf.
         let quantity = max(1, (object["quantity"] as? Int) ?? Int(price(from: object["quantity"]) ?? 1))
-        return ScannedItem(name: name, quantity: quantity, price: price)
+        return ScannedItem(name: name, quantity: quantity, price: unitPrice)
     }
 
     /// Alle vollständigen `{...}`-Objekte, die keine weiteren enthalten.
