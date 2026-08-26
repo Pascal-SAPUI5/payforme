@@ -138,6 +138,99 @@ jobs:
           xcrun altool --upload-app -f "$IPA" -t ios \
             --apiKey "$ASC_KEY_ID" --apiIssuer "$ASC_ISSUER_ID"
 
+      # Hochladen allein reicht nicht. Ein Build landet in App Store Connect,
+      # wird verarbeitet und bleibt dann auf READY_FOR_BETA_TESTING stehen, bis
+      # ihn jemand einer Testgruppe zuweist. Ohne diesen Schritt ist der Build
+      # da, taucht aber in TestFlight nicht auf.
+      - name: An interne Tester verteilen
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          TF_BUNDLE_ID: ${{ vars.TF_BUNDLE_ID }}
+          BUILD_VERSION: ${{ github.run_number }}
+        run: |
+          python3 -m pip install --quiet --disable-pip-version-check pyjwt cryptography
+          python3 - <<'PY'
+          import json, os, time, urllib.request, urllib.error, sys
+          import jwt
+
+          key_id = os.environ["ASC_KEY_ID"]
+          issuer = os.environ["ASC_ISSUER_ID"]
+          bundle = os.environ["TF_BUNDLE_ID"]
+          version = os.environ["BUILD_VERSION"]
+          private_key = open(os.path.expanduser(f"~/private_keys/AuthKey_{key_id}.p8")).read()
+
+          def token():
+              now = int(time.time())
+              return jwt.encode({"iss": issuer, "iat": now, "exp": now + 1200,
+                                 "aud": "appstoreconnect-v1"},
+                                private_key, algorithm="ES256",
+                                headers={"kid": key_id, "typ": "JWT"})
+
+          def call(path, method="GET", body=None):
+              data = json.dumps(body).encode() if body is not None else None
+              req = urllib.request.Request(
+                  "https://api.appstoreconnect.apple.com" + path,
+                  data=data, method=method,
+                  headers={"Authorization": "Bearer " + token(),
+                           "Content-Type": "application/json"})
+              try:
+                  response = urllib.request.urlopen(req)
+                  raw = response.read()
+                  return response.status, (json.loads(raw) if raw else None)
+              except urllib.error.HTTPError as e:
+                  return e.code, e.read().decode()[:400]
+
+          status, apps = call(f"/v1/apps?filter[bundleId]={bundle}")
+          if status != 200 or not apps["data"]:
+              print(f"::error::App {bundle} nicht gefunden ({status})")
+              sys.exit(1)
+          app_id = apps["data"][0]["id"]
+
+          # Der Build braucht ein paar Minuten, bis Apple ihn verarbeitet hat.
+          # Vorher laesst er sich keiner Gruppe zuweisen.
+          build_id = None
+          for attempt in range(40):
+              status, builds = call(
+                  f"/v1/builds?filter[app]={app_id}&filter[version]={version}&limit=1")
+              if status == 200 and builds["data"]:
+                  state = builds["data"][0]["attributes"]["processingState"]
+                  print(f"Build {version}: {state}")
+                  if state == "VALID":
+                      build_id = builds["data"][0]["id"]
+                      break
+                  if state in ("INVALID", "FAILED"):
+                      print(f"::error::Build {version} wurde von Apple abgelehnt: {state}")
+                      sys.exit(1)
+              else:
+                  print(f"Build {version} noch nicht sichtbar ...")
+              time.sleep(30)
+
+          if not build_id:
+              print(f"::error::Build {version} war nach 20 Minuten nicht verarbeitet")
+              sys.exit(1)
+
+          status, groups = call(f"/v1/betaGroups?filter[app]={app_id}&limit=20")
+          if status != 200:
+              print(f"::error::Testgruppen nicht lesbar ({status}): {groups}")
+              sys.exit(1)
+          internal = [g for g in groups["data"] if g["attributes"].get("isInternalGroup")]
+          if not internal:
+              print("::error::Keine interne Testgruppe. Lege eine in App Store Connect an.")
+              sys.exit(1)
+
+          for group in internal:
+              status, body = call(f"/v1/betaGroups/{group['id']}/relationships/builds",
+                                  method="POST",
+                                  body={"data": [{"type": "builds", "id": build_id}]})
+              name = group["attributes"]["name"]
+              if status in (200, 201, 204):
+                  print(f"Build {version} an '{name}' verteilt")
+              else:
+                  print(f"::error::Verteilen an '{name}' fehlgeschlagen ({status}): {body}")
+                  sys.exit(1)
+          PY
+
       - name: Schluessel entfernen
         if: always()
         run: rm -rf ~/private_keys
