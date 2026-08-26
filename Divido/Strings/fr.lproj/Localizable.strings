@@ -215,3 +215,22 @@
 "onboarding_what_is_this" = "Qu’est-ce que c’est ?";
 "onboarding_hide_info" = "Masquer les détails";
 "Unknown" = "Inconnu";
+
+
+// MARK: - Bon scannen
+"scan_title" = "Scanner le ticket";
+"scan_empty_title" = "Scanner un ticket";
+"scan_empty_message" = "Photographiez le ticket, Divido en lit les articles. Vous décidez ensuite qui prend quoi.";
+"scan_start_camera" = "Utiliser l’appareil photo";
+"scan_choose_photo" = "Choisir une photo";
+"scan_recognizing" = "Lecture du ticket…";
+"scan_failed_title" = "Lecture impossible";
+"scan_failed_message" = "Aucun article n’a été trouvé sur ce ticket. Réessayez avec plus de lumière, ou saisissez la dépense à la main.";
+"scan_retry" = "Réessayer";
+"scan_items" = "Articles";
+"scan_assign_hint" = "Touchez un visage pour attribuer. Sans sélection, c’est partagé.";
+"scan_shared" = "Partagé";
+"scan_remove_item" = "Retirer l’article";
+"scan_unaccounted %@" = "%@ du ticket ne correspondent à aucun article";
+"scan_bills_preview %lld" = "Dépenses à créer : %lld";
+"scan_create_bills" = "Créer les dépenses";

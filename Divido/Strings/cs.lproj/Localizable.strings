@@ -208,3 +208,22 @@
 "onboarding_what_is_this" = "Co to je?";
 "onboarding_hide_info" = "Skrýt podrobnosti";
 "Unknown" = "Neznámý";
+
+
+// MARK: - Bon scannen
+"scan_title" = "Naskenovat účtenku";
+"scan_empty_title" = "Naskenujte účtenku";
+"scan_empty_message" = "Vyfoťte účtenku a Divido přečte položky. Potom určíte, kdo co dostane.";
+"scan_start_camera" = "Použít fotoaparát";
+"scan_choose_photo" = "Vybrat fotku";
+"scan_recognizing" = "Čtu účtenku…";
+"scan_failed_title" = "Nelze přečíst";
+"scan_failed_message" = "Na této účtence se nenašly žádné položky. Zkuste to znovu s lepším světlem, nebo výdaj zadejte ručně.";
+"scan_retry" = "Zkusit znovu";
+"scan_items" = "Položky";
+"scan_assign_hint" = "Klepnutím na tvář položku přiřadíte. Bez klepnutí je sdílená.";
+"scan_shared" = "Sdílené";
+"scan_remove_item" = "Odebrat položku";
+"scan_unaccounted %@" = "%@ na účtence nevysvětluje žádná položka";
+"scan_bills_preview %lld" = "Vznikne výdajů: %lld";
+"scan_create_bills" = "Vytvořit výdaje";

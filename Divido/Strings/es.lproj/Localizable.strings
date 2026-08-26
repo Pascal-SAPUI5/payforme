@@ -215,3 +215,22 @@
 "onboarding_what_is_this" = "¿Qué es esto?";
 "onboarding_hide_info" = "Ocultar detalles";
 "Unknown" = "Desconocido";
+
+
+// MARK: - Bon scannen
+"scan_title" = "Escanear recibo";
+"scan_empty_title" = "Escanea un recibo";
+"scan_empty_message" = "Fotografía el recibo y Divido leerá los artículos. Después decides quién se lleva qué.";
+"scan_start_camera" = "Usar la cámara";
+"scan_choose_photo" = "Elegir foto";
+"scan_recognizing" = "Leyendo el recibo…";
+"scan_failed_title" = "No se pudo leer";
+"scan_failed_message" = "No se encontró ningún artículo en este recibo. Inténtalo de nuevo con más luz o introduce el gasto a mano.";
+"scan_retry" = "Intentar de nuevo";
+"scan_items" = "Artículos";
+"scan_assign_hint" = "Toca una cara para asignar. Sin tocar significa compartido.";
+"scan_shared" = "Compartido";
+"scan_remove_item" = "Quitar artículo";
+"scan_unaccounted %@" = "%@ del recibo no los explica ningún artículo";
+"scan_bills_preview %lld" = "Gastos que se crearán: %lld";
+"scan_create_bills" = "Crear gastos";

@@ -215,3 +215,22 @@
 "onboarding_what_is_this" = "What is this?";
 "onboarding_hide_info" = "Hide details";
 "Unknown" = "Unknown";
+
+
+// MARK: - Bon scannen
+"scan_title" = "Scan receipt";
+"scan_empty_title" = "Scan a receipt";
+"scan_empty_message" = "Photograph the receipt and Divido reads the items. Then you decide who gets what.";
+"scan_start_camera" = "Use camera";
+"scan_choose_photo" = "Choose photo";
+"scan_recognizing" = "Reading the receipt…";
+"scan_failed_title" = "Could not read it";
+"scan_failed_message" = "No items were found on this receipt. Try again with more light, or enter the expense by hand.";
+"scan_retry" = "Try again";
+"scan_items" = "Items";
+"scan_assign_hint" = "Tap a face to assign. Untouched means shared.";
+"scan_shared" = "Shared";
+"scan_remove_item" = "Remove item";
+"scan_unaccounted %@" = "%@ on the receipt is not covered by any item";
+"scan_bills_preview %lld" = "Expenses to create: %lld";
+"scan_create_bills" = "Create expenses";

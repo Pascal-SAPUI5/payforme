@@ -50,7 +50,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>In order to easily add new projects, you can allow us to scan a QR code from Cospend. If you don't want that, you can add it manually</string>
+	<string>Divido uses the camera to scan a receipt so its items can be split, and to read a Cospend QR code when you add a project. Both are optional; you can always type instead.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

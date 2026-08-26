@@ -214,3 +214,22 @@
 "onboarding_what_is_this" = "Что это?";
 "onboarding_hide_info" = "Скрыть подробности";
 "Unknown" = "Неизвестно";
+
+
+// MARK: - Bon scannen
+"scan_title" = "Сканировать чек";
+"scan_empty_title" = "Отсканируйте чек";
+"scan_empty_message" = "Сфотографируйте чек, и Divido прочитает позиции. Дальше вы решаете, кому что достанется.";
+"scan_start_camera" = "Использовать камеру";
+"scan_choose_photo" = "Выбрать фото";
+"scan_recognizing" = "Читаю чек…";
+"scan_failed_title" = "Не удалось прочитать";
+"scan_failed_message" = "На этом чеке не найдено ни одной позиции. Попробуйте снова при лучшем освещении или введите расход вручную.";
+"scan_retry" = "Попробовать снова";
+"scan_items" = "Позиции";
+"scan_assign_hint" = "Нажмите на лицо, чтобы назначить. Без нажатия позиция общая.";
+"scan_shared" = "Общее";
+"scan_remove_item" = "Удалить позицию";
+"scan_unaccounted %@" = "%@ в чеке не объясняются ни одной позицией";
+"scan_bills_preview %lld" = "Будет создано расходов: %lld";
+"scan_create_bills" = "Создать расходы";

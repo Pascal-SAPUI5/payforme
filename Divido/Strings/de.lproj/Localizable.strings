@@ -212,3 +212,22 @@
 "onboarding_what_is_this" = "Was ist das?";
 "onboarding_hide_info" = "Details ausblenden";
 "Unknown" = "Unbekannt";
+
+
+// MARK: - Bon scannen
+"scan_title" = "Bon scannen";
+"scan_empty_title" = "Bon scannen";
+"scan_empty_message" = "Fotografiere den Bon, Divido liest die Positionen. Danach entscheidest du, wer was bekommt.";
+"scan_start_camera" = "Kamera benutzen";
+"scan_choose_photo" = "Foto auswählen";
+"scan_recognizing" = "Bon wird gelesen…";
+"scan_failed_title" = "Nicht lesbar";
+"scan_failed_message" = "Auf diesem Bon wurden keine Positionen gefunden. Versuch es mit mehr Licht noch einmal, oder trage die Ausgabe von Hand ein.";
+"scan_retry" = "Erneut versuchen";
+"scan_items" = "Positionen";
+"scan_assign_hint" = "Zum Zuordnen antippen. Nicht angetippt heißt geteilt.";
+"scan_shared" = "Geteilt";
+"scan_remove_item" = "Position entfernen";
+"scan_unaccounted %@" = "%@ auf dem Bon werden von keiner Position erklärt";
+"scan_bills_preview %lld" = "Ausgaben, die entstehen: %lld";
+"scan_create_bills" = "Ausgaben anlegen";

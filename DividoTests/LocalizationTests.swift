@@ -38,6 +38,11 @@ final class LocalizationTests: XCTestCase {
             "appearance_theme", "appearance_theme_subtitle",
             "onboarding_what_is_this", "onboarding_hide_info",
             "Unknown",
+            "scan_title", "scan_empty_title", "scan_empty_message",
+            "scan_start_camera", "scan_choose_photo", "scan_recognizing",
+            "scan_failed_title", "scan_failed_message", "scan_retry",
+            "scan_items", "scan_assign_hint", "scan_shared", "scan_remove_item",
+            "scan_unaccounted %@", "scan_bills_preview %lld", "scan_create_bills",
         ]
         keys += PFMAppearance.allCases.map { $0.localizationKey }
         keys += PFMThemeID.allCases.map { $0.localizationKey }

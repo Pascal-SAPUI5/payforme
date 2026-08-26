@@ -15,6 +15,10 @@
 		A1B2C3D40003000000000002 /* TextLineGrouperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40003000000000001 /* TextLineGrouperTests.swift */; };
 		A1B2C3D40004000000000002 /* ReceiptSplitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40004000000000001 /* ReceiptSplitter.swift */; };
 		A1B2C3D40005000000000002 /* ReceiptSplitterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40005000000000001 /* ReceiptSplitterTests.swift */; };
+		A1B2C3D40006000000000002 /* ScanReceiptViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40006000000000001 /* ScanReceiptViewModel.swift */; };
+		A1B2C3D40007000000000002 /* ReceiptCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40007000000000001 /* ReceiptCamera.swift */; };
+		A1B2C3D40008000000000002 /* ScanReceiptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40008000000000001 /* ScanReceiptView.swift */; };
+		A1B2C3D40009000000000002 /* ScanReceiptViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40009000000000001 /* ScanReceiptViewModelTests.swift */; };
 		7499EE644E063553C105B468 /* ThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0554BC233B6DD44E9B8D5D05 /* ThemeTests.swift */; };
 		8B03284997E5559D21D8F6CB /* StatisticsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92FF162AD1123643F8B716B4 /* StatisticsViewModelTests.swift */; };
 		687479B57034E6BDB0C9E94F /* LocalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED46064525AE7ACB9AE20A11 /* LocalizationTests.swift */; };
@@ -117,6 +121,10 @@
 		A1B2C3D40003000000000001 /* TextLineGrouperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextLineGrouperTests.swift; sourceTree = "<group>"; };
 		A1B2C3D40004000000000001 /* ReceiptSplitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptSplitter.swift; sourceTree = "<group>"; };
 		A1B2C3D40005000000000001 /* ReceiptSplitterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptSplitterTests.swift; sourceTree = "<group>"; };
+		A1B2C3D40006000000000001 /* ScanReceiptViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanReceiptViewModel.swift; sourceTree = "<group>"; };
+		A1B2C3D40007000000000001 /* ReceiptCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptCamera.swift; sourceTree = "<group>"; };
+		A1B2C3D40008000000000001 /* ScanReceiptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanReceiptView.swift; sourceTree = "<group>"; };
+		A1B2C3D40009000000000001 /* ScanReceiptViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanReceiptViewModelTests.swift; sourceTree = "<group>"; };
 		0554BC233B6DD44E9B8D5D05 /* ThemeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTests.swift; sourceTree = "<group>"; };
 		92FF162AD1123643F8B716B4 /* StatisticsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewModelTests.swift; sourceTree = "<group>"; };
 		ED46064525AE7ACB9AE20A11 /* LocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationTests.swift; sourceTree = "<group>"; };
@@ -287,6 +295,16 @@
 			path = Manual;
 			sourceTree = "<group>";
 		};
+		A1B2C3D4000A000000000001 /* Scan */ = {
+			isa = PBXGroup;
+			children = (
+				A1B2C3D40008000000000001 /* ScanReceiptView.swift */,
+				A1B2C3D40006000000000001 /* ScanReceiptViewModel.swift */,
+				A1B2C3D40007000000000001 /* ReceiptCamera.swift */,
+			);
+			path = Scan;
+			sourceTree = "<group>";
+		};
 		6533A02C23D88EF300FF822B /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -296,6 +314,7 @@
 				6596D4E423ED9CBD0079DD5B /* BillList */,
 				6596D4E323ED9C8B0079DD5B /* Projects */,
 				6596D4E223ED9C520079DD5B /* BillDetail */,
+				A1B2C3D4000A000000000001 /* Scan */,
 				65662A0623D7320000303207 /* ContentView.swift */,
 				654754C7252899FF00A82EB6 /* FancyButton.swift */,
 				650504A023FEA461000E5F9C /* PersonText.swift */,
@@ -316,6 +335,7 @@
 				BA8AABA41DDF7092EDAD6181 /* ReceiptParserTests.swift */,
 				A1B2C3D40003000000000001 /* TextLineGrouperTests.swift */,
 				A1B2C3D40005000000000001 /* ReceiptSplitterTests.swift */,
+				A1B2C3D40009000000000001 /* ScanReceiptViewModelTests.swift */,
 				654754E52528B29F00A82EB6 /* Info.plist */,
 				6523FC4B25580EEF00BCD843 /* UrlExtensionsTests.swift */,
 				0865D2DAF541B24078D1DC41 /* TestHelpers.swift */,
@@ -647,6 +667,7 @@
 				148F55D2DDF5861DDBF4924D /* ReceiptParserTests.swift in Sources */,
 				A1B2C3D40003000000000002 /* TextLineGrouperTests.swift in Sources */,
 				A1B2C3D40005000000000002 /* ReceiptSplitterTests.swift in Sources */,
+				A1B2C3D40009000000000002 /* ScanReceiptViewModelTests.swift in Sources */,
 				6523FC4C25580EEF00BCD843 /* UrlExtensionsTests.swift in Sources */,
 				57BC8D25B91CE40F4669650C /* TestHelpers.swift in Sources */,
 				D279295CFA25D9CC69C6F27C /* BillTests.swift in Sources */,
@@ -678,6 +699,9 @@
 				A1B2C3D40001000000000002 /* TextLineGrouper.swift in Sources */,
 				A1B2C3D40002000000000002 /* ReceiptRecognizer.swift in Sources */,
 				A1B2C3D40004000000000002 /* ReceiptSplitter.swift in Sources */,
+				A1B2C3D40006000000000002 /* ScanReceiptViewModel.swift in Sources */,
+				A1B2C3D40007000000000002 /* ReceiptCamera.swift in Sources */,
+				A1B2C3D40008000000000002 /* ScanReceiptView.swift in Sources */,
 				C535E99096B54E88933D7AB4 /* ScannedReceipt.swift in Sources */,
 				654754F22528BB7700A82EB6 /* ShareProjectQRCode.swift in Sources */,
 				654754B82528736F00A82EB6 /* Views+Extensions.swift in Sources */,
