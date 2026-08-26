@@ -22,12 +22,12 @@ struct ScanReceiptView: View {
     @State private var pickedPhoto: PhotosPickerItem?
 
     private let currency: String?
-    private let onCreate: ([BillDraft]) -> Void
+    private let onCreate: ([BillDraft], Date) -> Void
 
     init(participants: [Person],
          currency: String?,
          recognizer: ((UIImage) async throws -> ScannedReceipt)? = nil,
-         onCreate: @escaping ([BillDraft]) -> Void) {
+         onCreate: @escaping ([BillDraft], Date) -> Void) {
         self.currency = currency
         self.onCreate = onCreate
         if let recognizer {
@@ -246,7 +246,7 @@ struct ScanReceiptView: View {
             Text("scan_bills_preview \(model.drafts.count)")
                 .font(.caption)
                 .foregroundColor(theme.palette.textSecondary)
-            Button(action: { onCreate(model.drafts); dismiss() }) {
+            Button(action: { onCreate(model.drafts, model.receipt?.date ?? Date()); dismiss() }) {
                 Text("scan_create_bills")
             }
             .buttonStyle(PFMPrimaryButtonStyle())

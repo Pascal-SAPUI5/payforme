@@ -19,6 +19,9 @@ struct BillList: View {
     @State
     private var showAddBill = false
 
+    @State
+    private var showScan = false
+
     private var currency: String? {
         viewModel.currentProject.currencyName.isEmpty ? nil : viewModel.currentProject.currencyName
     }
@@ -52,9 +55,28 @@ struct BillList: View {
                                accessibilityIdentifier: "Add Bill") {
                 showAddBill = true
             }
+            .overlay(alignment: .bottomTrailing) {
+                Button(action: { showScan = true }) {
+                    Image(systemName: "doc.text.viewfinder")
+                        .font(.title3.weight(.semibold))
+                        .frame(width: 48, height: 48)
+                }
+                .glassCircleStyle()
+                .accessibilityLabel(Text("scan_title"))
+                .accessibilityIdentifier("Scan Receipt")
+                .padding(.trailing, 24)
+                .padding(.bottom, 88)
+            }
             .sheet(isPresented: $showAddBill) {
                 PFMThemedContainer {
                     AddBillView(showModal: $showAddBill)
+                }
+            }
+            .sheet(isPresented: $showScan) {
+                PFMThemedContainer {
+                    ScanReceiptView(participants: sortedMembers, currency: currency) { drafts, date in
+                        createBills(from: drafts, on: date)
+                    }
                 }
             }
             .alert(item: $deleteAlert) { index in
@@ -139,6 +161,31 @@ struct BillList: View {
                 ProjectManager.shared.loadBillsAndMembers()
             })
         }
+    }
+
+    private var sortedMembers: [Person] {
+        Array(viewModel.currentProject.members.values)
+            .sorted { $0.name.lowercased() < $1.name.lowercased() }
+    }
+
+    /// Legt die Rechnungen des Bons an.
+    ///
+    /// Streng nacheinander, weil ProjectManager genau eine Cancellable haelt
+    /// und ein zweiter Aufruf den ersten abbricht. Parallel abgeschickt ginge
+    /// alles ausser der letzten Rechnung still verloren.
+    private func createBills(from drafts: [BillDraft], on date: Date) {
+        let project = viewModel.currentProject
+        let bills = ReceiptBillBuilder.bills(from: drafts,
+                                             payerID: project.me ?? 0,
+                                             date: date,
+                                             members: sortedMembers,
+                                             backend: project.backend)
+
+        ReceiptBillBuilder.post(bills, using: { bill, done in
+            ProjectManager.shared.saveBill(bill, completion: done)
+        }, completion: {
+            Task { await ProjectManager.shared.refresh() }
+        })
     }
 }
 
